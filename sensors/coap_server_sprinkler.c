@@ -25,8 +25,7 @@ static int upper = 45;
 static int lower = -10;
 extern int temp_value;
 extern int hum_value;
-extern bool ideal_hum;
-extern bool ideal_temp;
+extern bool is_on;
 PROCESS(sprinkler_node, "Sprinkler");
 AUTOSTART_PROCESSES(&sprinkler_node);
 
@@ -89,14 +88,19 @@ PROCESS_THREAD(sprinkler_node, ev, data){
 			hum_value = (rand()%100+1);
 			LOG_DBG("temperature: %d\n", temp_value);
 			LOG_DBG("humidity: %d\n", hum_value);
-			//if temperature is low or grass humidity is high not give water
-			if(temp_value <= THRESHOLD_TEMP || hum_value >= THRESHOLD_HUM){
-				leds_set(LEDS_NUM_TO_MASK(LEDS_YELLOW));
-			}
-			if(temp_value > THRESHOLD_TEMP || hum_value < THRESHOLD_HUM){
-				leds_set(LEDS_NUM_TO_MASK(LEDS_GREEN));
+			if(!is_on){
+				leds_set(LEDS_NUM_TO_MASK(LEDS_RED))
+			}else{
+				//if temperature is low or grass humidity is high not give water
+				if(temp_value <= THRESHOLD_TEMP || hum_value >= THRESHOLD_HUM){
+					leds_set(LEDS_NUM_TO_MASK(LEDS_YELLOW));
+				}
+				if(temp_value > THRESHOLD_TEMP || hum_value < THRESHOLD_HUM){
+					leds_set(LEDS_NUM_TO_MASK(LEDS_GREEN));
+				}
 			}
 
+			res_spri.trigger();
 			res_temp.trigger();
 			res_hum.trigger();
 			etimer_reset(&timer);
