@@ -89,7 +89,7 @@ PROCESS_THREAD(sprinkler_node, ev, data){
 			LOG_DBG("temperature: %d\n", temp_value);
 			LOG_DBG("humidity: %d\n", hum_value);
 			if(!is_on){
-				leds_set(LEDS_NUM_TO_MASK(LEDS_RED))
+				leds_set(LEDS_NUM_TO_MASK(LEDS_RED));
 			}else{
 				//if temperature is low or grass humidity is high not give water
 				if(temp_value <= THRESHOLD_TEMP || hum_value >= THRESHOLD_HUM){

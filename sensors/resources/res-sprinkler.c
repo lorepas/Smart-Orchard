@@ -11,7 +11,7 @@
 
 //extern struct process sprinkler_node;
 process_event_t POST_EVENT;
-bool is_on = false;
+bool is_on = true;
 int success = 0;
 
 static void res_get_handler(coap_message_t *request, coap_message_t *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
