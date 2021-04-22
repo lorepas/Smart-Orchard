@@ -7,17 +7,17 @@
 #include"time.h"
 
 #include "sys/log.h"
-#define LOG_MODULE "Temperature sensor"
+#define LOG_MODULE "Humidity sensor"
 #define LOG_LEVEL LOG_LEVEL_DBG
 
-int temp_value = 20;
-bool ideal_temp = false;
+int hum_value = 50;
+bool ideal_hum = false;
 
 static void res_get_handler(coap_message_t *request, coap_message_t *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 static void res_event_handler(void);
 
-EVENT_RESOURCE(res_temp,
-               "title=\"Temp sensor\";rt=\"temp Sensor\";obs",
+EVENT_RESOURCE(res_hum,
+               "title=\"Humidity sensor\";rt=\"hum Sensor\";obs",
                res_get_handler,
                NULL,
                NULL,
@@ -36,17 +36,17 @@ static void res_get_handler(coap_message_t *request, coap_message_t *response, u
 
 	  if(accept == TEXT_PLAIN) {
 	    coap_set_header_content_format(response, TEXT_PLAIN);
-	    snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "value=%d", temp_value);
+	    snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "value=%d", hum_value);
 	    coap_set_payload(response, (uint8_t *)buffer, strlen((char *)buffer));
 	    
 	  } else if(accept == APPLICATION_XML) {
 	    coap_set_header_content_format(response, APPLICATION_XML);
-	    snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "<value=\"%d\"/>", temp_value);
+	    snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "<value=\"%d\"/>", hum_value);
 	    coap_set_payload(response, buffer, strlen((char *)buffer));
 	    
 	  } else if(accept == -1 || accept == APPLICATION_JSON) {
 	    coap_set_header_content_format(response, APPLICATION_JSON);
-	    snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "{\"value\":%d}", temp_value);
+	    snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "{\"value\":%d}", hum_value);
 	    coap_set_payload(response, buffer, strlen((char *)buffer));
 	    
 	  } else {
@@ -58,5 +58,5 @@ static void res_get_handler(coap_message_t *request, coap_message_t *response, u
 
 static void res_event_handler(void) {
 	LOG_DBG("Sending notification");
-  	coap_notify_observers(&res_temp);
+  	coap_notify_observers(&res_hum);
 }
