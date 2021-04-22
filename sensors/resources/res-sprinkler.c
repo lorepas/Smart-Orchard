@@ -3,6 +3,7 @@
 #include "coap-engine.h"
 #include "contiki.h"
 #include "os/dev/leds.h"
+#include "sys/stimer.h"
 
 /*log conf*/
 #include "sys/log.h"
@@ -88,8 +89,8 @@ static void res_post_put_handler(coap_message_t *request, coap_message_t *respon
 			is_on=true;
 			stimer_set(&timer, CLOCK_SECOND*12);
 			stimer_set(&timer_blink, CLOCK_SECOND*1);
-			while(stimer_expired(&timer)){
-				if(stimer_expired&timer_blink){
+			while(!stimer_expired(&timer)){
+				if(stimer_expired(&timer_blink)){
 					leds_toggle(LEDS_ALL);
 					stimer_restart(&timer_blink);
 				}
