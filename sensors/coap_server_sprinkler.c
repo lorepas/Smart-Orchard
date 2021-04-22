@@ -10,19 +10,22 @@
 #define LOG_MODULE "App"
 #define LOG_LEVEL LOG_LEVEL_DBG
 extern process_event_t POST_EVENT;
-
+extern coap_resource_t res_hum;
 extern coap_resource_t  res_temp;
+extern coap_resource_t res_spri;
 
 #define SERVER_EP "coap://[fd00::1]:5683"
 char *service_registration = "/registration";
 
 bool registered = false; 
 static struct etimer timer;
-#define THRESHOLD_TEMP_MIN 5
-#define THRESHOLD_TEMP_MAX 20
+#define THRESHOLD_TEMP 15
+#define THRESHOLD_HUM 50
 static int upper = 45;
 static int lower = -10;
 extern int temp_value;
+extern int hum_value;
+extern bool ideal_hum;
 extern bool ideal_temp;
 PROCESS(sprinkler_node, "Sprinkler");
 AUTOSTART_PROCESSES(&sprinkler_node);
@@ -55,7 +58,9 @@ PROCESS_THREAD(sprinkler_node, ev, data){
 	LOG_INFO("Starting...\n");
   
 	//activate resource
-	coap_activate_resource(&res_temp, "temperature-sensor");
+	coap_activate_resource(&res_temp, "temp");
+	coap_activate_resource(&res_hum, "hum");
+	coap_activate_resource(&res_spri, "sprinkler");
 
 	//populate endpoint datastructure
 	coap_endpoint_parse(SERVER_EP, strlen(SERVER_EP), &server_ep);
@@ -68,7 +73,10 @@ PROCESS_THREAD(sprinkler_node, ev, data){
 	while(!registered){	
 		COAP_BLOCKING_REQUEST(&server_ep, request, client_chunk_handler);	
     }
-*/                
+*/
+	LOG_INFO("init leds to red...\n");
+	leds_set(LEDS_NUM_TO_MASK(LEDS_RED));
+
 	LOG_INFO("registered!\n");
 	etimer_set(&timer, CLOCK_SECOND*10);
 
@@ -78,19 +86,19 @@ PROCESS_THREAD(sprinkler_node, ev, data){
 		if(ev == PROCESS_EVENT_TIMER){  ///  
 
 			temp_value = (rand()%(upper - lower + 1)) + lower;
+			hum_value = (rand()%100+1);
 			LOG_DBG("temperature: %d\n", temp_value);
-			if(temp_value <= THRESHOLD_TEMP_MIN || temp_value >= THRESHOLD_TEMP_MAX){
-				ideal_temp = false;
-				leds_on(LEDS_NUM_TO_MASK(LEDS_RED));
-				leds_off(LEDS_NUM_TO_MASK(LEDS_GREEN));
+			LOG_DBG("humidity: %d\n", hum_value);
+			//if temperature is low or grass humidity is high not give water
+			if(temp_value <= THRESHOLD_TEMP || hum_value >= THRESHOLD_HUM){
+				leds_set(LEDS_NUM_TO_MASK(LEDS_YELLOW));
 			}
-			if(temp_value>THRESHOLD_TEMP_MIN && temp_value<THRESHOLD_TEMP_MAX){
-				ideal_temp = true;
-				leds_on(LEDS_NUM_TO_MASK(LEDS_GREEN));
-				leds_off(LEDS_NUM_TO_MASK(LEDS_RED));
+			if(temp_value > THRESHOLD_TEMP || hum_value < THRESHOLD_HUM){
+				leds_set(LEDS_NUM_TO_MASK(LEDS_GREEN));
 			}
 
 			res_temp.trigger();
+			res_hum.trigger();
 			etimer_reset(&timer);
 			LOG_DBG("Triggered update\n");
 		}
