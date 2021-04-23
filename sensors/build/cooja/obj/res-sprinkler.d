@@ -36,8 +36,7 @@ build/cooja/obj/res-sprinkler.o: resources/res-sprinkler.c \
  ../../../contiki-ng/os/net/app-layer/coap/coap-observe-client.h \
  ../../../contiki-ng/os/dev/leds.h ../../../contiki-ng/os/dev/gpio-hal.h \
  ../../../contiki-ng/arch/platform/cooja/./dev/gpio-hal-arch.h \
- ../../../contiki-ng/os/sys/stimer.h ../../../contiki-ng/os/sys/log.h \
- ../../../contiki-ng/os/sys/log-conf.h
+ ../../../contiki-ng/os/sys/log.h ../../../contiki-ng/os/sys/log-conf.h
 resources/res-sprinkler.c :
  ../../../contiki-ng/os/net/app-layer/coap/module-macros.h :
  ../../../contiki-ng/os/net/app-layer/coap/coap-engine.h :
@@ -76,5 +75,4 @@ resources/res-sprinkler.c :
  ../../../contiki-ng/os/net/app-layer/coap/coap-observe-client.h :
  ../../../contiki-ng/os/dev/leds.h ../../../contiki-ng/os/dev/gpio-hal.h :
  ../../../contiki-ng/arch/platform/cooja/./dev/gpio-hal-arch.h :
- ../../../contiki-ng/os/sys/stimer.h ../../../contiki-ng/os/sys/log.h :
- ../../../contiki-ng/os/sys/log-conf.h :
+ ../../../contiki-ng/os/sys/log.h ../../../contiki-ng/os/sys/log-conf.h :

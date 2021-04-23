@@ -19,6 +19,7 @@ char *service_registration = "/registration";
 
 bool registered = false; 
 static struct etimer timer;
+static struct etimer timer_blink;
 #define THRESHOLD_TEMP 15
 #define THRESHOLD_HUM 50
 static int upper = 45;
@@ -108,14 +109,17 @@ PROCESS_THREAD(sprinkler_node, ev, data){
 		}
 /*
 		if(ev == POST_EVENT){
-			if(is_auto){//if in automatic mode
-				if(is_sunset && !is_humid){	//if dark, not humid
-					status=true;
-					leds_on(LEDS_NUM_TO_MASK(LEDS_GREEN));
-				}
-				else {			
-					status=false;
-					leds_off(LEDS_NUM_TO_MASK(LEDS_GREEN));
+			if(is_on){
+				etimer_set(&timer, CLOCK_SECOND*10);
+				while(true){
+					PROCESS_WAIT_EVENT();
+					if(ev == PROCESS_EVENT_TIMER){
+						if(etimer_expired(&timer_blink)){
+							leds_toggle(LEDS_ALL);
+							etimer_restart(&timer_blink);
+						}
+					}
+					if(etimer_expired(&timer)) break;
 				}
 			}
 		}

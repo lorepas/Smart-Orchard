@@ -3,19 +3,16 @@
 #include "coap-engine.h"
 #include "contiki.h"
 #include "os/dev/leds.h"
-#include "sys/stimer.h"
 
 /*log conf*/
 #include "sys/log.h"
 #define LOG_MODULE "Sprinkler Actuator"
 #define LOG_LEVEL LOG_LEVEL_DBG
 
-//extern struct process sprinkler_node;
+extern struct process sprinkler_node;
 process_event_t POST_EVENT;
 bool is_on = true;
 int success = 0;
-static struct stimer timer;
-static struct stimer timer_blink;
 
 static void res_get_handler(coap_message_t *request, coap_message_t *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 static void res_post_put_handler(coap_message_t *request, coap_message_t *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
@@ -87,14 +84,6 @@ static void res_post_put_handler(coap_message_t *request, coap_message_t *respon
 	if((len = coap_get_post_variable(request, "active", &control))){
 		if(strncmp(control, "ON", len)== 0){
 			is_on=true;
-			stimer_set(&timer, CLOCK_SECOND*12);
-			stimer_set(&timer_blink, CLOCK_SECOND*1);
-			while(!stimer_expired(&timer)){
-				if(stimer_expired(&timer_blink)){
-					leds_toggle(LEDS_ALL);
-					stimer_restart(&timer_blink);
-				}
-			}
 			LOG_DBG("Sprinkler is ON\n");
 			leds_set(LEDS_NUM_TO_MASK(LEDS_GREEN));
 			success = 1;
@@ -112,7 +101,7 @@ static void res_post_put_handler(coap_message_t *request, coap_message_t *respon
 		coap_set_status_code(response, BAD_REQUEST_4_00);
 	}else{
 		coap_set_status_code(response, CHANGED_2_04);
-		//process_post(&irrigator_node,POST_EVENT,NULL); 
+		//process_post(&sprinkler_node,POST_EVENT,NULL); 
 	}
 	
 }
