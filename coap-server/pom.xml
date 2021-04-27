@@ -57,7 +57,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath> 
-							<mainClass>MyServer</mainClass>
+							<mainClass>App</mainClass>
 							<addDefaultImplementationEntries>true </addDefaultImplementationEntries>
 						</manifest>
 					</archive>

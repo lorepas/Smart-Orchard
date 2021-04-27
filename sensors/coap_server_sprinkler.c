@@ -19,7 +19,6 @@ char *service_registration = "/registration";
 
 bool registered = false; 
 static struct etimer timer;
-static struct etimer timer_blink;
 #define THRESHOLD_TEMP 15
 #define THRESHOLD_HUM 50
 static int upper = 45;
@@ -69,11 +68,11 @@ PROCESS_THREAD(sprinkler_node, ev, data){
 	LOG_INFO("registering...\n");
 	coap_init_message(request, COAP_TYPE_CON, COAP_GET, 0);
 	coap_set_header_uri_path(request, service_registration);
-/*
+
 	while(!registered){	
 		COAP_BLOCKING_REQUEST(&server_ep, request, client_chunk_handler);	
-    }
-*/
+    	}
+
 	LOG_INFO("init leds to red...\n");
 	leds_set(LEDS_NUM_TO_MASK(LEDS_RED));
 

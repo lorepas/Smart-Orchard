@@ -1,10 +1,14 @@
 import org.eclipse.californium.core.CoapServer;
-
+import org.eclipse.californium.core.CaliforniumLogger;
 public class MyServer extends CoapServer {
-
-	public static void main(String[] args) {
-		System.out.print("Running...");
-
+	
+	static {
+		CaliforniumLogger.disableLogging();
+	}
+	
+	public void startServer() {
+		this.add(new RegistrationResource("Registration..."));
+		this.start();
 	}
 
 }
