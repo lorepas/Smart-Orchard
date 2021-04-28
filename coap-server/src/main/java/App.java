@@ -16,19 +16,16 @@ public class App {
 			Scanner command = new Scanner(System.in);
 			int command_code = command.nextInt();
 			switch(command_code) {
+				case(0):
+					System.out.println("-------- THIS IS A LIST OF REGISTERED RESOURCE: --------\n");
+					showRegisteredResource();
+					break;
 				case(1):
 					System.out.println("-------- THIS IS A LIST OF ACTIVE NODES: --------\n");
-					for(String s: RegistrationResource.nodes) {
-						System.out.println("- "+s+"\n");
-					}
 					System.out.println("Please, select a NodeID:...\n");
 					System.out.print(">>>>");
 					int nodeId = command.nextInt();
-					if(nodeId<0 || nodeId>10) {
-						System.out.println("-------- NODE ID NOT VALID! RETRY... --------\n");
-						break;
-					}
-					changeSprinklerStatus(nodeId);
+					changeSprinklerStatus(nodeId,"sprinkler");
 					break;
 				default:
 					System.out.println("-------- COMMAND WRONG! RETRY... --------\n");
@@ -36,6 +33,11 @@ public class App {
 			}
 					
 		}
+	}
+	
+	public static void showRegisteredResource() {
+		for(Map.Entry<String, Sprinkler> entry: sprinkler.entrySet() )
+			System.out.println(entry.getValue().toString());
 	}
 	
 	public static void startServer() {
@@ -52,16 +54,17 @@ public class App {
 		System.out.println("****** MAIN MENU ******\n");
 		System.out.println("***********************\n");
 		System.out.println("Please insert a command:...\n");
+		System.out.println("0 - Show all registered resources\n");
 		System.out.println("1 - Change sprinkler status\n");
 		System.out.print(">>>>");
 	}
+
 	
-	public static void changeSprinklerStatus(int id) {
-		String key = RegistrationResource.nodes.get(id);
-		System.out.println(key);
-		boolean state = sprinkler.get(key).isActive();
+	public static void changeSprinklerStatus(int id, String res) {
+		boolean state = sprinkler.get(res).isActive();
 		
-		CoapClient client = new CoapClient(sprinkler.get(key).getResURI());
+		CoapClient client = new CoapClient(sprinkler.get(res).getResURI());
+		//CoapClient client = new CoapClient("coap://[fd00::202:2:2:2]:5683/sprinkler");
 		state = (state==true ? false : true);
 		
 		CoapResponse response = client.post("active="+state, MediaTypeRegistry.TEXT_PLAIN);
@@ -71,7 +74,7 @@ public class App {
 			System.out.println("ERROR CODE: "+code);
 			return;
 		}
-		sprinkler.get(key).setActive(state);
+		sprinkler.get("sprinkler").setActive(state);
 		System.out.println("SPRINKLER IS NOW "+ (state==true ? "ACTIVE":"NOT ACTIVE"));
 	}
 

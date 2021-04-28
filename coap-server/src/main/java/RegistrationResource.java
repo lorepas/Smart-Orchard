@@ -8,11 +8,6 @@ import org.eclipse.californium.core.CoapResponse;
 import org.eclipse.californium.core.server.resources.CoapExchange;
 
 public class RegistrationResource extends CoapResource {
-	
-	private final static int MAX_SPRINKLER = 10;
-	private int actualSprinkler = 0;
-	
-	public static final ArrayList<String> nodes = new ArrayList<String>(Arrays.asList("Insalata","Pomodoro"));
 
 	public RegistrationResource(String name) {
 		super(name);
@@ -38,6 +33,19 @@ public class RegistrationResource extends CoapResource {
 		
 		String responseText = response.getResponseText();
 		System.out.println("RESPONSE:\n"+responseText);
+		String[] res = responseText.split(",");
+		for(int i=1; i< res.length; i++) {
+			try {
+				String[] parameters = res[i].split(";");
+				String path = parameters[0].split("<")[1].split(">")[0];
+				String name = path.split("/")[1];
+				
+				Sprinkler newSprin = new Sprinkler(path, addr.getHostAddress());
+				App.sprinkler.put(name,newSprin);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
 	}
 
 }
