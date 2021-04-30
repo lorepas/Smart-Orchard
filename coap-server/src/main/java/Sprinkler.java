@@ -6,7 +6,7 @@ public class Sprinkler extends Resource {
 	public Sprinkler(String path, String add) {
 		super(path, add);
 		// TODO Auto-generated constructor stub
-		setActive(false);
+		setActive(true);
 	}
 
 	public boolean isActive() {

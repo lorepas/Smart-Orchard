@@ -12,6 +12,10 @@ public class HumiditySensor extends Resource {
 		return value;
 	}
 	
+	public void setValue(int v) {
+		this.value = v;
+	}
+	
 	public String toString() {
 		return "humidity sensor set to:\t"+this.getValue();
 	}

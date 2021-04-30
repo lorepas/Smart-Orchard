@@ -40,19 +40,19 @@ public class RegistrationResource extends CoapResource {
 				String name = path.split("/")[1];
 				if(name.compareTo("hum")==0) {
 					HumiditySensor newHum = new HumiditySensor(path,addr.getHostAddress());
-					App.hum_sensor.put(name,newHum);
+					App.hum_sensor.put(name+"_"+addr.getHostAddress(),newHum);
 				}else if(name.compareTo("temp")==0) {
 					TemperatureSensor newTem = new TemperatureSensor(path,addr.getHostAddress());
-					App.temp_sensor.put(name, newTem);
+					App.temp_sensor.put(name+"_"+addr.getHostAddress(), newTem);
 				}else if(name.compareTo("sprinkler")==0) {
 					Sprinkler newSprin = new Sprinkler(path, addr.getHostAddress());
-					App.sprinkler.put(name,newSprin);
-				}
-			App.waitReg = false;	
+					App.sprinkler.put(name+"_"+addr.getHostAddress(),newSprin);
+				}	
 			}catch(Exception e){
 				e.printStackTrace();
 			}
 		}
+		App.waitReg = false;
 	}
 
 }

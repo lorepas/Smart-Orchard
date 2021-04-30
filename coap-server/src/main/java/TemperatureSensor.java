@@ -11,6 +11,10 @@ public class TemperatureSensor extends Resource {
 	public int getValue() {
 		return value;
 	}
+	
+	public void setValue(int v) {
+		this.value = v;
+	}
 
 	public String toString() {
 		return "temperature sensor set to:\t"+this.getValue();
