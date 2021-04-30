@@ -7,7 +7,7 @@ public class MyServer extends CoapServer {
 	}
 	
 	public void startServer() {
-		this.add(new RegistrationResource("Registration..."));
+		this.add(new RegistrationResource("registration"));
 		this.start();
 	}
 

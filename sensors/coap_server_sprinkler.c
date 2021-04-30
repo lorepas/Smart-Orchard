@@ -15,7 +15,7 @@ extern coap_resource_t  res_temp;
 extern coap_resource_t res_spri;
 
 #define SERVER_EP "coap://[fd00::1]:5683"
-char *service_registration = "/registration";
+char *service_registration = "registration";
 
 bool registered = false; 
 static struct etimer timer;

@@ -16,5 +16,10 @@ public class Sprinkler extends Resource {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
+	
+	public String toString() {
+		String s = ((this.active==true) ? "ON":"OFF");
+		return "sprinkler is:\t"+s;
+	}
 
 }

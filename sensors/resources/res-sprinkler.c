@@ -18,7 +18,7 @@ static void res_get_handler(coap_message_t *request, coap_message_t *response, u
 static void res_post_put_handler(coap_message_t *request, coap_message_t *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 static void res_event_handler(void);
 
-EVENT_RESOURCE(res_spri, "title=\"Sprinkler actuator: ?POST/PUT active=ON|OFF\";rt=\"Sprinkler\";obs",
+EVENT_RESOURCE(res_spri, "title=\"Sprinkler Actuator: ?POST/PUT active=ON|OFF\";rt=\"sprinkler actuator\";obs",
 	       	   res_get_handler,
                res_post_put_handler,
                res_post_put_handler,

@@ -32,16 +32,23 @@ public class RegistrationResource extends CoapResource {
 		}
 		
 		String responseText = response.getResponseText();
-		System.out.println("RESPONSE:\n"+responseText);
 		String[] res = responseText.split(",");
 		for(int i=1; i< res.length; i++) {
 			try {
 				String[] parameters = res[i].split(";");
 				String path = parameters[0].split("<")[1].split(">")[0];
 				String name = path.split("/")[1];
-				
-				Sprinkler newSprin = new Sprinkler(path, addr.getHostAddress());
-				App.sprinkler.put(name,newSprin);
+				if(name.compareTo("hum")==0) {
+					HumiditySensor newHum = new HumiditySensor(path,addr.getHostAddress());
+					App.hum_sensor.put(name,newHum);
+				}else if(name.compareTo("temp")==0) {
+					TemperatureSensor newTem = new TemperatureSensor(path,addr.getHostAddress());
+					App.temp_sensor.put(name, newTem);
+				}else if(name.compareTo("sprinkler")==0) {
+					Sprinkler newSprin = new Sprinkler(path, addr.getHostAddress());
+					App.sprinkler.put(name,newSprin);
+				}
+			App.waitReg = false;	
 			}catch(Exception e){
 				e.printStackTrace();
 			}

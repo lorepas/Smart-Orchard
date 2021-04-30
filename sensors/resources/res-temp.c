@@ -17,7 +17,7 @@ static void res_get_handler(coap_message_t *request, coap_message_t *response, u
 static void res_event_handler(void);
 
 EVENT_RESOURCE(res_temp,
-               "title=\"Temp sensor\";rt=\"temp Sensor\";obs",
+               "title=\"Temperature Sensor\";rt=\"temperature sensor\";obs",
                res_get_handler,
                NULL,
                NULL,
