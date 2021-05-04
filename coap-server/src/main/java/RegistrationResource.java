@@ -1,6 +1,10 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapResource;
@@ -8,6 +12,8 @@ import org.eclipse.californium.core.CoapResponse;
 import org.eclipse.californium.core.server.resources.CoapExchange;
 
 public class RegistrationResource extends CoapResource {
+	
+	private int counter=0;
 
 	public RegistrationResource(String name) {
 		super(name);
@@ -20,6 +26,7 @@ public class RegistrationResource extends CoapResource {
 	}
 	
 	public void handleGET(CoapExchange exchange) {
+		counter++;
 		exchange.accept();
 		InetAddress addr = exchange.getSourceAddress();
 		CoapClient client = new CoapClient("coap://["+addr.getHostAddress()+"]:5683/.well-known/core");
@@ -33,26 +40,37 @@ public class RegistrationResource extends CoapResource {
 		
 		String responseText = response.getResponseText();
 		String[] res = responseText.split(",");
+		System.out.println("Which type of orchard do you want to manage?");
+		System.out.print(">>>");
+		BufferedReader orc = new BufferedReader(new InputStreamReader(System.in));
+		String orchard_type="";
+		try {
+			orchard_type = orc.readLine();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} 
 		for(int i=1; i< res.length; i++) {
 			try {
 				String[] parameters = res[i].split(";");
 				String path = parameters[0].split("<")[1].split(">")[0];
 				String name = path.split("/")[1];
 				if(name.compareTo("hum")==0) {
-					HumiditySensor newHum = new HumiditySensor(path,addr.getHostAddress());
+					HumiditySensor newHum = new HumiditySensor(path,addr.getHostAddress(),orchard_type);
 					App.hum_sensor.put(name+"_"+addr.getHostAddress(),newHum);
 				}else if(name.compareTo("temp")==0) {
-					TemperatureSensor newTem = new TemperatureSensor(path,addr.getHostAddress());
+					TemperatureSensor newTem = new TemperatureSensor(path,addr.getHostAddress(),orchard_type);
 					App.temp_sensor.put(name+"_"+addr.getHostAddress(), newTem);
 				}else if(name.compareTo("sprinkler")==0) {
-					Sprinkler newSprin = new Sprinkler(path, addr.getHostAddress());
+					Sprinkler newSprin = new Sprinkler(path, addr.getHostAddress(),orchard_type);
 					App.sprinkler.put(name+"_"+addr.getHostAddress(),newSprin);
 				}	
 			}catch(Exception e){
 				e.printStackTrace();
 			}
 		}
-		App.waitReg = false;
+		if(counter==App.res_number)
+			App.waitReg = false;
 	}
 
 }

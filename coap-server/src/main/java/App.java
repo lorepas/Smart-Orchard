@@ -1,5 +1,9 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
 
 import org.eclipse.californium.core.CoapClient;
 import org.eclipse.californium.core.CoapResponse;
@@ -11,17 +15,29 @@ public class App {
 	public static Map<String,HumiditySensor> hum_sensor = new HashMap<String,HumiditySensor>();
 	public static Map<String,TemperatureSensor> temp_sensor = new HashMap<String,TemperatureSensor>();
 	public static boolean waitReg = true;
+	public static String orchard_type = new String();
+	public static int res_number = 0;
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws NumberFormatException, IOException, InterruptedException {
 		// TODO Auto-generated method stub
+		System.out.println("-------- WELCOME TO OUR SMART-ORCHARD --------\n");
+		System.out.print("First of all, tell us how many resources you want to deploy: ");
+		while(res_number<=0) {
+			BufferedReader num_res = new BufferedReader(new InputStreamReader(System.in));
+			res_number = Integer.parseInt(num_res.readLine());
+			if(res_number<=0)
+				System.out.print("Please, try with a number greater than 0: ");
+		}
+		System.out.println("-------- WAITING RESOURCE REGISTRATION --------\n");
 		startServer();
+
 		while(true) {
-			if(waitReg) {
-				System.out.println("-------- WAITING RESOURCE REGISTRATION --------\n");
+			while(waitReg){
+				TimeUnit.SECONDS.sleep(30);
 			}
 			commandLine();
-			Scanner command = new Scanner(System.in);
-			int command_code = command.nextInt();
+			BufferedReader command = new BufferedReader(new InputStreamReader(System.in));
+			int command_code = Integer.parseInt(command.readLine());
 			switch(command_code) {
 				case(0):
 					System.out.println("-------- THIS IS A LIST OF REGISTERED RESOURCE: --------\n");
@@ -32,7 +48,8 @@ public class App {
 					showRegisteredSprinkler();
 					System.out.println("Please, select a Sprinkler ID:\n");
 					System.out.print(">>>>");
-					int nodeId = command.nextInt();
+					BufferedReader command_type = new BufferedReader(new InputStreamReader(System.in));
+					int nodeId = Integer.parseInt(command_type.readLine());
 					changeSprinklerStatus(nodeId);
 					break;
 				case(2):
@@ -41,8 +58,13 @@ public class App {
 					System.out.println("1 - Humidity sensors\n");
 					System.out.println("2 - Temperature sensors\n");
 					System.out.print(">>>>");
-					int res = command.nextInt();
+					BufferedReader command_res = new BufferedReader(new InputStreamReader(System.in));
+					int res = Integer.parseInt(command_res.readLine());
 					showResourcesState(res);
+					break;
+				case(3):
+					System.out.println("-------- THIS IS A LIST OF REGISTERED ORCHARD: --------\n");
+					showOrchard();
 					break;
 				default:
 					System.out.println("-------- COMMAND WRONG! RETRY... --------\n");
@@ -58,6 +80,15 @@ public class App {
 			System.out.println(entry.getKey()+"->"+entry.getValue().toString());
 		for(Map.Entry<String, TemperatureSensor> entry: temp_sensor.entrySet() )
 			System.out.println(entry.getKey()+"->"+entry.getValue().toString());
+	}
+	
+	public static void showOrchard() {
+		for(Map.Entry<String, Sprinkler> entry: sprinkler.entrySet())
+			System.out.println(entry.getKey()+"->"+entry.getValue().getOrchard());
+		for(Map.Entry<String, HumiditySensor> entry: hum_sensor.entrySet() )
+			System.out.println(entry.getKey()+"->"+entry.getValue().getOrchard());
+		for(Map.Entry<String, TemperatureSensor> entry: temp_sensor.entrySet() )
+			System.out.println(entry.getKey()+"->"+entry.getValue().getOrchard());
 	}
 	
 	public static void showResourcesState(int resType) {
@@ -143,6 +174,7 @@ public class App {
 		System.out.println("0 - Show all registered resources\n");
 		System.out.println("1 - Change sprinkler status\n");
 		System.out.println("2 - Show resources status\n");
+		System.out.println("3 - Registered Orchard\n");
 		System.out.print(">>>>");
 	}
 

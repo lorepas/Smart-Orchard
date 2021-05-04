@@ -3,8 +3,8 @@ public class Sprinkler extends Resource {
 	
 	private boolean active;
 
-	public Sprinkler(String path, String add) {
-		super(path, add);
+	public Sprinkler(String path, String add, String orchard) {
+		super(path, add, orchard);
 		// TODO Auto-generated constructor stub
 		setActive(true);
 	}

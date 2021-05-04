@@ -3,8 +3,8 @@ public class TemperatureSensor extends Resource {
 	
 	private int value;
 
-	public TemperatureSensor(String path, String add) {
-		super(path, add);
+	public TemperatureSensor(String path, String add, String orchard) {
+		super(path, add, orchard);
 		// TODO Auto-generated constructor stub
 	}
 
