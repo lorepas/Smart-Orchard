@@ -19,13 +19,13 @@ char *service_registration = "registration";
 
 bool registered = false; 
 static struct etimer timer;
-#define THRESHOLD_TEMP 15
 #define THRESHOLD_HUM 50
 static int upper = 45;
 static int lower = -10;
 extern int temp_value;
 extern int hum_value;
 extern bool is_on;
+extern int threshold_temp;
 PROCESS(sprinkler_node, "Sprinkler");
 AUTOSTART_PROCESSES(&sprinkler_node);
 
@@ -92,10 +92,10 @@ PROCESS_THREAD(sprinkler_node, ev, data){
 				leds_set(LEDS_NUM_TO_MASK(LEDS_RED));
 			}else{
 				//if temperature is low or grass humidity is high not give water
-				if(temp_value <= THRESHOLD_TEMP || hum_value >= THRESHOLD_HUM){
+				if(temp_value <= threshold_temp || hum_value >= THRESHOLD_HUM){
 					leds_set(LEDS_NUM_TO_MASK(LEDS_YELLOW));
 				}
-				if(temp_value > THRESHOLD_TEMP || hum_value < THRESHOLD_HUM){
+				if(temp_value > threshold_temp || hum_value < THRESHOLD_HUM){
 					leds_set(LEDS_NUM_TO_MASK(LEDS_GREEN));
 				}
 			}
@@ -106,23 +106,6 @@ PROCESS_THREAD(sprinkler_node, ev, data){
 			etimer_reset(&timer);
 			LOG_DBG("Triggered update\n");
 		}
-/*
-		if(ev == POST_EVENT){
-			if(is_on){
-				etimer_set(&timer, CLOCK_SECOND*10);
-				while(true){
-					PROCESS_WAIT_EVENT();
-					if(ev == PROCESS_EVENT_TIMER){
-						if(etimer_expired(&timer_blink)){
-							leds_toggle(LEDS_ALL);
-							etimer_restart(&timer_blink);
-						}
-					}
-					if(etimer_expired(&timer)) break;
-				}
-			}
-		}
-*/
 	}
 	
   PROCESS_END();

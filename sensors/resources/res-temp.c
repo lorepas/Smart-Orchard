@@ -12,15 +12,17 @@
 
 int temp_value = 20;
 bool ideal_temp = false;
+int threshold_temp = 15;
+int success = 0;
 
 static void res_get_handler(coap_message_t *request, coap_message_t *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 static void res_event_handler(void);
 
 EVENT_RESOURCE(res_temp,
-               "title=\"Temperature Sensor\";rt=\"temperature sensor\";obs",
+               "title=\"Temperature Sensor: ?POST/PUT value=<value>\";rt=\"temperature sensor\";obs",
                res_get_handler,
-               NULL,
-               NULL,
+               res_post_put_handler,
+               res_post_put_handler,
                NULL,
                res_event_handler);
 
@@ -55,6 +57,37 @@ static void res_get_handler(coap_message_t *request, coap_message_t *response, u
 	    coap_set_payload(response, msg, strlen(msg));
 	  }
 }
+
+static void res_post_put_handler(coap_message_t *request, coap_message_t *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset){  
+	
+	if(request!=NULL){
+		LOG_DBG("Received POST/PUT\n");
+	}
+
+	size_t len = 0; 
+	const char *text = NULL;
+	char temp[32];
+    memset(temp, 0, 32);
+	
+	len = coap_get_post_variable(request, "value", &text);
+	if(len > 0 && len < 32) {
+		memcpy(temp, text, len);
+		threshold_temp = atoi(temp);
+		LOG_DBG("Temperature threshold setted to: %d\n",threshold_temp);
+		char msg[50];
+	    memset(msg, 0, 50);
+		sprintf(msg, "Temperature threshold setted to %d", threshold_temp);
+		int length=sizeof(msg);
+		coap_set_header_content_format(response, TEXT_PLAIN);
+		coap_set_header_etag(response, (uint8_t *)&length, 1);
+		coap_set_payload(response, msg, length);
+		coap_set_status_code(response, CHANGED_2_04);
+	}else{
+		coap_set_status_code(response, BAD_REQUEST_4_00);
+	}
+	
+}
+
 
 static void res_event_handler(void) {
 	LOG_DBG("Sending notification");
