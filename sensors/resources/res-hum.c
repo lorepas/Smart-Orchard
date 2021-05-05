@@ -12,12 +12,14 @@
 
 int hum_value = 50;
 bool ideal_hum = false;
+int threshold_hum = 50;
 
 static void res_get_handler(coap_message_t *request, coap_message_t *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
+static void res_post_put_handler(coap_message_t *request, coap_message_t *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
 static void res_event_handler(void);
 
 EVENT_RESOURCE(res_hum,
-               "title=\"Humidity Sensor\";rt=\"humidity sensor\";obs",
+               "title=\"Humidity Sensor: ?POST/PUT value=<value>\";rt=\"humidity sensor\";obs",
                res_get_handler,
                NULL,
                NULL,
@@ -54,6 +56,36 @@ static void res_get_handler(coap_message_t *request, coap_message_t *response, u
 	    const char *msg = "Supporting content-types text/plain, application/xml, and application/json";
 	    coap_set_payload(response, msg, strlen(msg));
 	  }
+}
+
+static void res_post_put_handler(coap_message_t *request, coap_message_t *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset){  
+	
+	if(request!=NULL){
+		LOG_DBG("Received POST/PUT\n");
+	}
+
+	size_t len = 0; 
+	const char *text = NULL;
+	char hum[100];
+    memset(hum, 0, 100);
+	
+	len = coap_get_post_variable(request, "value", &text);
+	if(len > 0 && len < 100) {
+		memcpy(hum, text, len);
+		threshold_hum = atoi(hum);
+		LOG_DBG("Humidity threshold setted to: %d\n",threshold_hum);
+		char msg[50];
+	    memset(msg, 0, 50);
+		sprintf(msg, "Humidity threshold setted to %d", threshold_hum);
+		int length=sizeof(msg);
+		coap_set_header_content_format(response, TEXT_PLAIN);
+		coap_set_header_etag(response, (uint8_t *)&length, 1);
+		coap_set_payload(response, msg, length);
+		coap_set_status_code(response, CHANGED_2_04);
+	}else{
+		coap_set_status_code(response, BAD_REQUEST_4_00);
+	}
+	
 }
 
 static void res_event_handler(void) {

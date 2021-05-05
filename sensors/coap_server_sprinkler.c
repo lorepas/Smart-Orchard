@@ -19,13 +19,14 @@ char *service_registration = "registration";
 
 bool registered = false; 
 static struct etimer timer;
-#define THRESHOLD_HUM 50
 static int upper = 45;
 static int lower = -10;
 extern int temp_value;
 extern int hum_value;
 extern bool is_on;
 extern int threshold_temp;
+extern int threshold_hum;
+extern bool is_sprinkling;
 PROCESS(sprinkler_node, "Sprinkler");
 AUTOSTART_PROCESSES(&sprinkler_node);
 
@@ -92,11 +93,13 @@ PROCESS_THREAD(sprinkler_node, ev, data){
 				leds_set(LEDS_NUM_TO_MASK(LEDS_RED));
 			}else{
 				//if temperature is low or grass humidity is high not give water
-				if(temp_value <= threshold_temp || hum_value >= THRESHOLD_HUM){
+				if(temp_value <= threshold_temp || hum_value >= threshold_hum){
 					leds_set(LEDS_NUM_TO_MASK(LEDS_YELLOW));
+					is_sprinkling=false;
 				}
-				if(temp_value > threshold_temp || hum_value < THRESHOLD_HUM){
+				if(temp_value > threshold_temp || hum_value < threshold_hum){
 					leds_set(LEDS_NUM_TO_MASK(LEDS_GREEN));
+					is_sprinkling=true;
 				}
 			}
 
