@@ -21,8 +21,8 @@ static void res_event_handler(void);
 EVENT_RESOURCE(res_hum,
                "title=\"Humidity Sensor: ?POST/PUT value=<value>\";rt=\"humidity sensor\";obs",
                res_get_handler,
-               NULL,
-               NULL,
+               res_post_put_handler,
+               res_post_put_handler,
                NULL,
                res_event_handler);
 
