@@ -69,11 +69,11 @@ PROCESS_THREAD(sprinkler_node, ev, data){
 	LOG_INFO("registering...\n");
 	coap_init_message(request, COAP_TYPE_CON, COAP_GET, 0);
 	coap_set_header_uri_path(request, service_registration);
-/*
+
 	while(!registered){	
 		COAP_BLOCKING_REQUEST(&server_ep, request, client_chunk_handler);	
     	}
-*/
+
 	LOG_INFO("init leds to red...\n");
 	leds_set(LEDS_NUM_TO_MASK(LEDS_RED));
 
@@ -87,8 +87,8 @@ PROCESS_THREAD(sprinkler_node, ev, data){
 
 			temp_value = (rand()%(upper - lower + 1)) + lower;
 			hum_value = (rand()%100+1);
-			LOG_DBG("temperature: %d\n", temp_value);
-			LOG_DBG("humidity: %d\n", hum_value);
+			LOG_DBG("temperature: %d\t threshold set to: %d\n", temp_value,threshold_temp);
+			LOG_DBG("humidity: %d\t threshold set to: %d\n", hum_value,threshold_hum);
 			if(!is_on){
 				leds_set(LEDS_NUM_TO_MASK(LEDS_RED));
 			}else{

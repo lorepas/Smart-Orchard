@@ -38,17 +38,17 @@ static void res_get_handler(coap_message_t *request, coap_message_t *response, u
 
 	  if(accept == TEXT_PLAIN) {
 	    coap_set_header_content_format(response, TEXT_PLAIN);
-	    snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "value=%d", hum_value);
+	    snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "value=%d,thr_hum=%d", hum_value,threshold_hum);
 	    coap_set_payload(response, (uint8_t *)buffer, strlen((char *)buffer));
 	    
 	  } else if(accept == APPLICATION_XML) {
 	    coap_set_header_content_format(response, APPLICATION_XML);
-	    snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "<value=\"%d\"/>", hum_value);
+	    snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "<value=\"%d\"/><thr_hum=%d/>", hum_value,threshold_hum);
 	    coap_set_payload(response, buffer, strlen((char *)buffer));
 	    
 	  } else if(accept == -1 || accept == APPLICATION_JSON) {
 	    coap_set_header_content_format(response, APPLICATION_JSON);
-	    snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "{\"value\":%d}", hum_value);
+	    snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "{\"value\":\"%d\",\"thr_hum\":\"%d\"}", hum_value,threshold_hum);
 	    coap_set_payload(response, buffer, strlen((char *)buffer));
 	    
 	  } else {
@@ -69,7 +69,7 @@ static void res_post_put_handler(coap_message_t *request, coap_message_t *respon
 	char hum[100];
     memset(hum, 0, 100);
 	
-	len = coap_get_post_variable(request, "value", &text);
+	len = coap_get_post_variable(request, "thr_hum", &text);
 	if(len > 0 && len < 100) {
 		memcpy(hum, text, len);
 		threshold_hum = atoi(hum);

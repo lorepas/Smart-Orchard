@@ -2,11 +2,11 @@
 public class Sprinkler extends Resource {
 	
 	private boolean active;
+	private boolean sprinkling;
 
 	public Sprinkler(String path, String add, String orchard) {
 		super(path, add, orchard);
 		// TODO Auto-generated constructor stub
-		setActive(true);
 	}
 
 	public boolean isActive() {
@@ -17,9 +17,24 @@ public class Sprinkler extends Resource {
 		this.active = active;
 	}
 	
+	public boolean isSprinkling() {
+		return sprinkling;
+	}
+
+	public void setSprinkling(boolean sprinkling) {
+		this.sprinkling = sprinkling;
+	}
+	
 	public String toString() {
-		String s = ((this.active==true) ? "ON":"OFF");
-		return "sprinkler is:\t"+s;
+		if(this.active==true) {
+			if(this.sprinkling==true) {
+				return "sprinkler is ON and IS SPRINKLING";
+			}else {
+				return "sprinkler is ON but IS NOT SPRINKLING";
+			}
+		}else {
+			return "sprinkler is OFF";
+		}
 	}
 
 }
