@@ -10,7 +10,7 @@ import org.eclipse.californium.core.CoapResponse;
 import org.eclipse.californium.core.coap.MediaTypeRegistry;
 
 public class App {
-	
+	//gestire meglio il changesprinkler e vedere come mai non funziona get sulle risorse
 	public static Map<String,Sprinkler> sprinkler = new HashMap<String,Sprinkler>();
 	public static Map<String,HumiditySensor> hum_sensor = new HashMap<String,HumiditySensor>();
 	public static Map<String,TemperatureSensor> temp_sensor = new HashMap<String,TemperatureSensor>();
@@ -30,15 +30,19 @@ public class App {
 		}
 		System.out.println("-------- WAITING RESOURCE REGISTRATION --------\n");
 		startServer();
-
+		BufferedReader command = new BufferedReader(new InputStreamReader(System.in));
 		while(true) {
 			while(waitReg){
 				TimeUnit.SECONDS.sleep(30);
 			}
-			initializeResources();
 			commandLine();
-			BufferedReader command = new BufferedReader(new InputStreamReader(System.in));
-			int command_code = Integer.parseInt(command.readLine());
+			String str_cmd = "";
+			str_cmd = command.readLine();
+			if(!commandValidity(str_cmd,5)) {
+				System.out.println("-------- COMMAND WRONG, PLEASE RETRY! --------\n");
+				continue;
+			}
+			int command_code = Integer.parseInt(str_cmd);
 			switch(command_code) {
 				case(0):
 					System.out.println("-------- THIS IS A LIST OF REGISTERED RESOURCE: --------\n");
@@ -72,8 +76,11 @@ public class App {
 					int sens = Integer.parseInt(command_sens.readLine());
 					changeResourcesStatus(sens);
 					break;
+				case(5):
+					System.exit(0);
+					break;
 				default:
-					System.out.println("-------- COMMAND WRONG! RETRY... --------\n");
+					commandLine();
 					break;
 			}
 		}
@@ -88,7 +95,25 @@ public class App {
 		System.out.println("1 - Change sprinkler status\n");
 		System.out.println("2 - Show resources status\n");
 		System.out.println("3 - Change sensors thresholds\n");
+		System.out.println("5 - Stop application\n");
+		System.out.println("To quit from a menu, please digit: q");
 		System.out.print(">>>>");
+	}
+	
+	public static boolean commandValidity(String c, int n) {
+		if(c==null) {
+			return false;
+		}
+		int num = -1;
+		try {
+			num = Integer.parseInt(c);
+			if(num>n) {
+				return false;
+			}
+		}catch(NumberFormatException e) {
+			return false;
+		}
+		return true;
 	}
 	
 	public static void showRegisteredResource() {
@@ -104,80 +129,19 @@ public class App {
 		if(resType==0) {
 			String[] spri_keys = sprinkler.keySet().toArray(new String[0]);
 			for(int i=0;i<spri_keys.length;i++) {
-				CoapClient client = new CoapClient(sprinkler.get(spri_keys[i]).getResURI());
-				CoapResponse res = client.get();
-				String code = res.getCode().toString();
-				if(!code.startsWith("2")) {
-					System.err.println("Error with code: "+code);
-					return;
-				}
-				String resText = res.getResponseText();
-				resText = resText.replace("}", "");
-				String[] split1 = resText.split(",");
-				String[] splitRes1 = split1[0].split(":");
-				String[] splitRes2 = split1[1].split(":");
-				String strValue = splitRes1[1];
-				String sprValue = splitRes2[1];
-				strValue = strValue.substring(1,strValue.length()-1); //delete double quotes
-				sprValue = sprValue.substring(1,sprValue.length()-1);
-				boolean value=false;
-				boolean sprinkling=false;
-				if(strValue.endsWith("N")) //ON
-					value=true;
-				if(sprValue.endsWith("S")) //YES
-					sprinkling=true;
-				sprinkler.get(spri_keys[i]).setActive(value);
-				sprinkler.get(spri_keys[i]).setSprinkling(sprinkling);
+				sprinkler.get(spri_keys[i]).getAllValuesCOAP();
 				System.out.println("SPRINKLER "+spri_keys[i]+ " -> "+sprinkler.get(spri_keys[i]).toString());
 			}
 		}else if(resType==1) {
 			String[] hum_keys = hum_sensor.keySet().toArray(new String[0]);
 			for(int i=0;i<hum_keys.length;i++) {
-				CoapClient client = new CoapClient(hum_sensor.get(hum_keys[i]).getResURI());
-				CoapResponse res = client.get();
-				String code = res.getCode().toString();
-				if(!code.startsWith("2")) {
-					System.err.println("Error with code: "+code);
-					return;
-				}
-				String resText = res.getResponseText();
-				resText = resText.replace("}", "");
-				String[] split1 = resText.split(",");
-				String[] splitRes1 = split1[0].split(":");
-				String[] splitRes2 = split1[1].split(":");
-				String strValue = splitRes1[1];
-				String thrValue = splitRes2[1];
-				strValue = strValue.substring(1,strValue.length()-1); //delete double quotes
-				thrValue = thrValue.substring(1,thrValue.length()-1);
-				int value = Integer.parseInt(strValue);
-				int thrHum = Integer.parseInt(thrValue);
-				hum_sensor.get(hum_keys[i]).setValue(value);
-				hum_sensor.get(hum_keys[i]).setHumidity_threshold(thrHum);
+				hum_sensor.get(hum_keys[i]).getAllValuesCOAP();
 				System.out.println("HUMIDITY SENSOR "+hum_keys[i]+ " -> "+hum_sensor.get(hum_keys[i]).toString());
 			}
 		}else if(resType==2) {
 			String[] temp_keys = temp_sensor.keySet().toArray(new String[0]);
 			for(int i=0;i<temp_keys.length;i++) {
-				CoapClient client = new CoapClient(temp_sensor.get(temp_keys[i]).getResURI());
-				CoapResponse res = client.get();
-				String code = res.getCode().toString();
-				if(!code.startsWith("2")) {
-					System.err.println("Error with code: "+code);
-					return;
-				}
-				String resText = res.getResponseText();
-				resText = resText.replace("}", "");
-				String[] split1 = resText.split(",");
-				String[] splitRes1 = split1[0].split(":");
-				String[] splitRes2 = split1[1].split(":");
-				String strValue = splitRes1[1];
-				String thrValue = splitRes2[1];
-				strValue = strValue.substring(1,strValue.length()-1); //delete double quotes
-				thrValue = thrValue.substring(1,thrValue.length()-1);
-				int value = Integer.parseInt(strValue);
-				int thrTmp = Integer.parseInt(thrValue);
-				temp_sensor.get(temp_keys[i]).setValue(value);
-				temp_sensor.get(temp_keys[i]).setTemperature_threshold(thrTmp);
+				temp_sensor.get(temp_keys[i]).getAllValuesCOAP();
 				System.out.println("TEMPERATURE SENSOR "+temp_keys[i]+ " -> "+temp_sensor.get(temp_keys[i]).toString());
 			}
 		}
@@ -186,6 +150,7 @@ public class App {
 	public static void showRegisteredSprinkler() {
 		int id=0;
 		for(Map.Entry<String, Sprinkler> entry: sprinkler.entrySet() ) {
+			entry.getValue().getAllValuesCOAP();
 			System.out.println(id+") "+entry.getKey()+"->"+entry.getValue().toString()+" ("+entry.getValue().getOrchard()+")");
 			id++;
 		}
@@ -194,6 +159,7 @@ public class App {
 	public static void showRegisteredHumiditySensor() {
 		int id=0;
 		for(Map.Entry<String, HumiditySensor> entry: hum_sensor.entrySet() ) {
+			entry.getValue().getAllValuesCOAP();
 			System.out.println(id+") "+entry.getKey()+"->"+entry.getValue().toString()+" ("+entry.getValue().getOrchard()+")");
 			id++;
 		}
@@ -203,6 +169,7 @@ public class App {
 	public static void showRegisteredTemperatureSensor() {
 		int id=0;
 		for(Map.Entry<String, TemperatureSensor> entry: temp_sensor.entrySet() ) {
+			entry.getValue().getAllValuesCOAP();
 			System.out.println(id+") "+entry.getKey()+"->"+entry.getValue().toString()+" ("+entry.getValue().getOrchard()+")");
 			id++;
 		}
@@ -221,6 +188,7 @@ public class App {
 		if(id >= sprinkler.entrySet().size() || id < 0) {
 			System.out.println("-------- NODE IS NOT PRESENT! RETRY... --------\n");
 			commandLine();
+			return;
 		}
 		String[] keys = sprinkler.keySet().toArray(new String[0]);
 		boolean state = sprinkler.get(keys[id]).isActive();
@@ -246,6 +214,7 @@ public class App {
 		}else {
 			System.out.println("-------- WRONG SELECTION! RETRY... --------\n");
 			commandLine();
+			return;
 		}
 		System.out.println("Please, select a resource ID:\n");
 		System.out.print(">>>>");
@@ -255,6 +224,7 @@ public class App {
 			if(id >= hum_sensor.entrySet().size() || id < 0) {
 				System.out.println("-------- NODE IS NOT PRESENT! RETRY... --------\n");
 				commandLine();
+				return;
 			}
 			String[] keys = hum_sensor.keySet().toArray(new String[0]);
 			System.out.println("Please, digit a new humidity threshold (from 0 to 100):\n");
@@ -279,6 +249,7 @@ public class App {
 			if(id >= temp_sensor.entrySet().size() || id < 0) {
 				System.out.println("-------- NODE IS NOT PRESENT! RETRY... --------\n");
 				commandLine();
+				return;
 			}
 			String[] keys = temp_sensor.keySet().toArray(new String[0]);
 			System.out.println("Please, digit a new temperature threshold (from 0 to 32):\n");
@@ -301,81 +272,4 @@ public class App {
 			System.out.println("TEMPERATURE THRESHOLD SETTED TO "+thr_tmp);
 		}
 	}
-	
-	public static void initializeResources() {
-		String[] spri_keys = sprinkler.keySet().toArray(new String[0]);
-		String[] hum_keys = hum_sensor.keySet().toArray(new String[0]);
-		String[] temp_keys = temp_sensor.keySet().toArray(new String[0]);
-		for(int i=0;i<spri_keys.length;i++) {
-			CoapClient client = new CoapClient(sprinkler.get(spri_keys[i]).getResURI());
-			CoapResponse res = client.get();
-			String code = res.getCode().toString();
-			if(!code.startsWith("2")) {
-				System.err.println("Error with code: "+code);
-				return;
-			}
-			String resText = res.getResponseText();
-			resText = resText.replace("}", "");
-			String[] split1 = resText.split(",");
-			String[] splitRes1 = split1[0].split(":");
-			String[] splitRes2 = split1[1].split(":");
-			String strValue = splitRes1[1];
-			String sprValue = splitRes2[1];
-			strValue = strValue.substring(1,strValue.length()-1); //delete double quotes
-			sprValue = sprValue.substring(1,sprValue.length()-1);
-			boolean value=false;
-			boolean sprinkling=false;
-			if(strValue.endsWith("N")) //ON
-				value=true;
-			if(sprValue.endsWith("S")) //YES
-				sprinkling=true;
-			sprinkler.get(spri_keys[i]).setActive(value);
-			sprinkler.get(spri_keys[i]).setSprinkling(sprinkling);
-		}
-		for(int i=0;i<hum_keys.length;i++) {
-			CoapClient client = new CoapClient(hum_sensor.get(hum_keys[i]).getResURI());
-			CoapResponse res = client.get();
-			String code = res.getCode().toString();
-			if(!code.startsWith("2")) {
-				System.err.println("Error with code: "+code);
-				return;
-			}
-			String resText = res.getResponseText();
-			resText = resText.replace("}", "");
-			String[] split1 = resText.split(",");
-			String[] splitRes1 = split1[0].split(":");
-			String[] splitRes2 = split1[1].split(":");
-			String strValue = splitRes1[1];
-			String thrValue = splitRes2[1];
-			strValue = strValue.substring(1,strValue.length()-1); //delete double quotes
-			thrValue = thrValue.substring(1,thrValue.length()-1);
-			int value = Integer.parseInt(strValue);
-			int thrHum = Integer.parseInt(thrValue);
-			hum_sensor.get(hum_keys[i]).setValue(value);
-			hum_sensor.get(hum_keys[i]).setHumidity_threshold(thrHum);
-		}		
-		for(int i=0;i<temp_keys.length;i++) {
-			CoapClient client = new CoapClient(temp_sensor.get(temp_keys[i]).getResURI());
-			CoapResponse res = client.get();
-			String code = res.getCode().toString();
-			if(!code.startsWith("2")) {
-				System.err.println("Error with code: "+code);
-				return;
-			}
-			String resText = res.getResponseText();
-			resText = resText.replace("}", "");
-			String[] split1 = resText.split(",");
-			String[] splitRes1 = split1[0].split(":");
-			String[] splitRes2 = split1[1].split(":");
-			String strValue = splitRes1[1];
-			String thrValue = splitRes2[1];
-			strValue = strValue.substring(1,strValue.length()-1); //delete double quotes
-			thrValue = thrValue.substring(1,thrValue.length()-1);
-			int value = Integer.parseInt(strValue);
-			int thrTmp = Integer.parseInt(thrValue);
-			temp_sensor.get(temp_keys[i]).setValue(value);
-			temp_sensor.get(temp_keys[i]).setTemperature_threshold(thrTmp);
-		}
-	}
-
 }
