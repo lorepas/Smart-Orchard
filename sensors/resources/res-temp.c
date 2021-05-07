@@ -20,7 +20,7 @@ static void res_post_put_handler(coap_message_t *request, coap_message_t *respon
 static void res_event_handler(void);
 
 EVENT_RESOURCE(res_temp,
-               "title=\"Temperature Sensor: ?POST/PUT value=<value>\";rt=\"temperature sensor\";obs",
+               "title=\"Temperature Sensor: ?POST/PUT temp_thr=<temp_thr>\";rt=\"temperature sensor\";obs",
                res_get_handler,
                res_post_put_handler,
                res_post_put_handler,
@@ -39,17 +39,17 @@ static void res_get_handler(coap_message_t *request, coap_message_t *response, u
 
 	  if(accept == TEXT_PLAIN) {
 	    coap_set_header_content_format(response, TEXT_PLAIN);
-	    snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "value=%d,thr_tmp=%d", temp_value,threshold_temp);
+	    snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "temp_value=%d,thr_tmp=%d", temp_value,threshold_temp);
 	    coap_set_payload(response, (uint8_t *)buffer, strlen((char *)buffer));
 	    
 	  } else if(accept == APPLICATION_XML) {
 	    coap_set_header_content_format(response, APPLICATION_XML);
-	    snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "<value=\"%d\"/><thr_tmp=%d/>", temp_value,threshold_temp);
+	    snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "<temp_value=\"%d\"/><thr_tmp=%d/>", temp_value,threshold_temp);
 	    coap_set_payload(response, buffer, strlen((char *)buffer));
 	    
 	  } else if(accept == -1 || accept == APPLICATION_JSON) {
 	    coap_set_header_content_format(response, APPLICATION_JSON);
-	    snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "{\"value\":\"%d\",\"thr_tmp\":\"%d\"}", temp_value,threshold_temp);
+	    snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "{\"temp_value\":\"%d\",\"thr_tmp\":\"%d\"}", temp_value,threshold_temp);
 	    coap_set_payload(response, buffer, strlen((char *)buffer));
 	    
 	  } else {

@@ -19,7 +19,7 @@ static void res_post_put_handler(coap_message_t *request, coap_message_t *respon
 static void res_event_handler(void);
 
 EVENT_RESOURCE(res_hum,
-               "title=\"Humidity Sensor: ?POST/PUT value=<value>\";rt=\"humidity sensor\";obs",
+               "title=\"Humidity Sensor: ?POST/PUT hum_thr=<hum_thr>\";rt=\"humidity sensor\";obs",
                res_get_handler,
                res_post_put_handler,
                res_post_put_handler,
@@ -38,17 +38,17 @@ static void res_get_handler(coap_message_t *request, coap_message_t *response, u
 
 	  if(accept == TEXT_PLAIN) {
 	    coap_set_header_content_format(response, TEXT_PLAIN);
-	    snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "value=%d,thr_hum=%d", hum_value,threshold_hum);
+	    snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "hum_value=%d,thr_hum=%d", hum_value,threshold_hum);
 	    coap_set_payload(response, (uint8_t *)buffer, strlen((char *)buffer));
 	    
 	  } else if(accept == APPLICATION_XML) {
 	    coap_set_header_content_format(response, APPLICATION_XML);
-	    snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "<value=\"%d\"/><thr_hum=%d/>", hum_value,threshold_hum);
+	    snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "<hum_value=\"%d\"/><thr_hum=%d/>", hum_value,threshold_hum);
 	    coap_set_payload(response, buffer, strlen((char *)buffer));
 	    
 	  } else if(accept == -1 || accept == APPLICATION_JSON) {
 	    coap_set_header_content_format(response, APPLICATION_JSON);
-	    snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "{\"value\":\"%d\",\"thr_hum\":\"%d\"}", hum_value,threshold_hum);
+	    snprintf((char *)buffer, COAP_MAX_CHUNK_SIZE, "{\"hum_value\":\"%d\",\"thr_hum\":\"%d\"}", hum_value,threshold_hum);
 	    coap_set_payload(response, buffer, strlen((char *)buffer));
 	    
 	  } else {

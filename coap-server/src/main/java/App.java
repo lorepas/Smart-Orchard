@@ -13,9 +13,11 @@ public class App {
 	public static Map<String,Sprinkler> sprinkler = new HashMap<String,Sprinkler>();
 	public static Map<String,HumiditySensor> hum_sensor = new HashMap<String,HumiditySensor>();
 	public static Map<String,TemperatureSensor> temp_sensor = new HashMap<String,TemperatureSensor>();
+	public static Map<String,ObserveCoapClient> obsClient = new HashMap<String,ObserveCoapClient>();
 	public static boolean waitReg = true;
 	public static String orchard_type = new String();
 	public static int res_number = 0;
+	public static boolean obs = false;
 	
 	public static void main(String[] args) throws NumberFormatException, IOException, InterruptedException {
 		// TODO Auto-generated method stub
@@ -87,6 +89,9 @@ public class App {
 					int sens = Integer.parseInt(s2);
 					changeResourcesStatus(sens);
 					break;
+				case(4):
+					observingResources();
+					break;
 				case(5):
 					System.exit(0);
 					break;
@@ -106,6 +111,7 @@ public class App {
 		System.out.println("1 - Change sprinkler status");
 		System.out.println("2 - Show resources status");
 		System.out.println("3 - Change sensors thresholds");
+		System.out.println("4 - Resource Observing");
 		System.out.println("5 - Stop application");
 		System.out.println("To quit from a menu, please digit: q");
 		System.out.print(">>>>");
@@ -278,5 +284,9 @@ public class App {
 			temp_sensor.get(keys[id]).setTemperature_threshold(thr_tmp);
 			System.out.println("TEMPERATURE THRESHOLD SETTED TO "+thr_tmp);
 		}
+	}
+	
+	public static void observingResources() {
+		obs = true;
 	}
 }
