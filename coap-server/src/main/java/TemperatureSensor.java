@@ -31,7 +31,7 @@ public class TemperatureSensor extends Resource {
 		this.temperature_threshold = temperature_threshold;
 	}
 	
-	public void getAllValuesCOAP() {
+	/*public void getAllValuesCOAP() {
 		CoapClient client = new CoapClient(this.getResURI());
 		CoapResponse res = client.get();
 		String code = res.getCode().toString();
@@ -52,5 +52,5 @@ public class TemperatureSensor extends Resource {
 		int thrTmp = Integer.parseInt(thrValue);
 		this.setValue(value);
 		this.setTemperature_threshold(thrTmp);
-	}
+	}*/
 }

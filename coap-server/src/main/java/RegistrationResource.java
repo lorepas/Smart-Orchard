@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Scanner;
 
 import org.eclipse.californium.core.CoapClient;
@@ -77,6 +78,7 @@ public class RegistrationResource extends CoapResource {
 		}
 		if(counter==App.res_number)
 			App.waitReg = false;
+			
 	}
 
 }

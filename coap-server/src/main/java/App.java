@@ -22,14 +22,14 @@ public class App {
 	public static void main(String[] args) throws NumberFormatException, IOException, InterruptedException {
 		// TODO Auto-generated method stub
 		System.out.println("-------- WELCOME TO OUR SMART-ORCHARD --------\n");
-		System.out.print("First of all, tell us how many resources you want to deploy: ");
+		System.out.print("First of all, tell us how many resources you want to deploy >>>> ");
 		while(res_number<=0) {
 			BufferedReader num_res = new BufferedReader(new InputStreamReader(System.in));
 			res_number = Integer.parseInt(num_res.readLine());
 			if(res_number<=0)
 				System.out.println("Please, try with a number greater than 0: ");
 		}
-		System.out.println("-------- WAITING RESOURCE REGISTRATION --------\n");
+		System.out.println("\n-------- WAITING RESOURCE REGISTRATION --------\n");
 		startServer();
 		BufferedReader command = new BufferedReader(new InputStreamReader(System.in));
 		while(true) {
@@ -146,19 +146,19 @@ public class App {
 		if(resType==0) {
 			String[] spri_keys = sprinkler.keySet().toArray(new String[0]);
 			for(int i=0;i<spri_keys.length;i++) {
-				sprinkler.get(spri_keys[i]).getAllValuesCOAP();
+				//sprinkler.get(spri_keys[i]).getAllValuesCOAP();
 				System.out.println("SPRINKLER "+spri_keys[i]+ " -> "+sprinkler.get(spri_keys[i]).toString());
 			}
 		}else if(resType==1) {
 			String[] hum_keys = hum_sensor.keySet().toArray(new String[0]);
 			for(int i=0;i<hum_keys.length;i++) {
-				hum_sensor.get(hum_keys[i]).getAllValuesCOAP();
+				//hum_sensor.get(hum_keys[i]).getAllValuesCOAP();
 				System.out.println("HUMIDITY SENSOR "+hum_keys[i]+ " -> "+hum_sensor.get(hum_keys[i]).toString());
 			}
 		}else if(resType==2) {
 			String[] temp_keys = temp_sensor.keySet().toArray(new String[0]);
 			for(int i=0;i<temp_keys.length;i++) {
-				temp_sensor.get(temp_keys[i]).getAllValuesCOAP();
+				//temp_sensor.get(temp_keys[i]).getAllValuesCOAP();
 				System.out.println("TEMPERATURE SENSOR "+temp_keys[i]+ " -> "+temp_sensor.get(temp_keys[i]).toString());
 			}
 		}
@@ -167,7 +167,7 @@ public class App {
 	public static void showRegisteredSprinkler() {
 		int id=0;
 		for(Map.Entry<String, Sprinkler> entry: sprinkler.entrySet() ) {
-			entry.getValue().getAllValuesCOAP();
+			//entry.getValue().getAllValuesCOAP();
 			System.out.println(id+") "+entry.getKey()+"->"+entry.getValue().toString()+" ("+entry.getValue().getOrchard()+")");
 			id++;
 		}
@@ -176,7 +176,7 @@ public class App {
 	public static void showRegisteredHumiditySensor() {
 		int id=0;
 		for(Map.Entry<String, HumiditySensor> entry: hum_sensor.entrySet() ) {
-			entry.getValue().getAllValuesCOAP();
+			//entry.getValue().getAllValuesCOAP();
 			System.out.println(id+") "+entry.getKey()+"->"+entry.getValue().toString()+" ("+entry.getValue().getOrchard()+")");
 			id++;
 		}
@@ -186,7 +186,7 @@ public class App {
 	public static void showRegisteredTemperatureSensor() {
 		int id=0;
 		for(Map.Entry<String, TemperatureSensor> entry: temp_sensor.entrySet() ) {
-			entry.getValue().getAllValuesCOAP();
+			//entry.getValue().getAllValuesCOAP();
 			System.out.println(id+") "+entry.getKey()+"->"+entry.getValue().toString()+" ("+entry.getValue().getOrchard()+")");
 			id++;
 		}
@@ -234,7 +234,11 @@ public class App {
 		System.out.println("Please, select a resource ID:");
 		System.out.print(">>>>");
 		BufferedReader res_id = new BufferedReader(new InputStreamReader(System.in));
-		int id = Integer.parseInt(res_id.readLine());
+		String s_res = res_id.readLine();
+		if(s_res.equals("q")) {
+			return;
+		}
+		int id = Integer.parseInt(s_res);
 		if(res==0) {
 			if(id >= hum_sensor.entrySet().size() || id < 0) {
 				System.out.println("-------- NODE IS NOT PRESENT! RETRY... --------\n");
@@ -286,7 +290,19 @@ public class App {
 		}
 	}
 	
-	public static void observingResources() {
+	public static void observingResources() throws IOException {
+		System.out.println("-------- YOU ARE IN OBSERVING MODE --------\n");
+		System.out.println("To quit from this modality, please digit: q");
 		obs = true;
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		String c = "";
+		while(true) {
+			c = br.readLine();
+			if(c.equals("q")) {
+				obs = false;
+				break;
+			}
+		}
+		return;
 	}
 }

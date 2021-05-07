@@ -31,7 +31,7 @@ public class HumiditySensor extends Resource {
 		this.humidity_threshold = humidity_threshold;
 	}
 	
-	public void getAllValuesCOAP() {
+	/*public void getAllValuesCOAP() {
 		CoapClient client = new CoapClient(this.getResURI());
 		CoapResponse res = client.get();
 		String code = res.getCode().toString();
@@ -52,6 +52,6 @@ public class HumiditySensor extends Resource {
 		int thrHum = Integer.parseInt(thrValue);
 		this.setValue(value);
 		this.setHumidity_threshold(thrHum);
-	}
+	}*/
 
 }

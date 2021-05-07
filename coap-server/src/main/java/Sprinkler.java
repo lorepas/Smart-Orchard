@@ -26,7 +26,7 @@ public class Sprinkler extends Resource {
 	public void setSprinkling(boolean sprinkling) {
 		this.sprinkling = sprinkling;
 	}
-	
+	/*
 	public void getAllValuesCOAP() {
 		CoapClient client = new CoapClient(this.getResURI());
 		CoapResponse res = client.get();
@@ -52,7 +52,7 @@ public class Sprinkler extends Resource {
 			sprinkling=true;
 		this.setActive(value);
 		this.setSprinkling(sprinkling);
-	}
+	}*/
 	
 	public String toString() {
 		if(this.active==true) {
