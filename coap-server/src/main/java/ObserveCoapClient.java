@@ -9,8 +9,11 @@ public class ObserveCoapClient extends CoapClient {
 	private Sprinkler sprinkler;
 	private HumiditySensor hum_sen;
 	private TemperatureSensor tem_sen;
+	String key_hum;
+	String key_tem;
+	String key_spr;
 	CoapObserveRelation cor;
-	
+
 	public ObserveCoapClient(Sprinkler s) {
 		super(s.getResURI());
 		this.sprinkler = s;
@@ -31,9 +34,6 @@ public class ObserveCoapClient extends CoapClient {
 			public void onLoad(CoapResponse response) {
 				try {
 					JSONObject jsonOb = (JSONObject) JSONValue.parseWithException(response.getResponseText());
-					String key_hum = "";
-					String key_tem = "";
-					String key_spr = "";
 					if(jsonOb.containsKey("hum_value")) {
 						int hum_value = Integer.parseInt(jsonOb.get("hum_value").toString());
 						int hum_thr = Integer.parseInt(jsonOb.get("thr_hum").toString());
@@ -63,10 +63,12 @@ public class ObserveCoapClient extends CoapClient {
 							App.sprinkler.get(key_spr).setActive(true);
 						else
 							App.sprinkler.get(key_spr).setActive(false);
+						
 						if(sprinkling.contains("YES"))
 							App.sprinkler.get(key_spr).setSprinkling(true);
 						else
 							App.sprinkler.get(key_spr).setSprinkling(false);
+						
 					}
 					
 					if(App.obs==true) {
@@ -77,6 +79,9 @@ public class ObserveCoapClient extends CoapClient {
 						System.out.println("--------- TIMESTAMP || "+t);
 						System.out.println("---------------------");
 						printAll();
+						//System.out.println("SPRINKLER "+sprinkler+ " -> "+App.sprinkler.get(key_spr).toString());
+						//System.out.println("HUMIDITY SENSOR "+key_hum+ " -> "+App.hum_sensor.get(key_hum).toString());
+						//System.out.println("TEMPERATURE SENSOR "+key_tem+ " -> "+App.temp_sensor.get(key_tem).toString());
 					}
 				}catch(Exception e){
 					e.printStackTrace();

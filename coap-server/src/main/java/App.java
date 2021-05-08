@@ -18,7 +18,7 @@ public class App {
 	public static String orchard_type = new String();
 	public static int res_number = 0;
 	public static boolean obs = false;
-	
+	//PROBLEMA RISORSE OSSERVABILI E GESTIRE LA REGISTRAZIONE SE CI METTE TROPPO TEMPO (PERCHÈ PIÙ RISORSE)
 	public static void main(String[] args) throws NumberFormatException, IOException, InterruptedException {
 		// TODO Auto-generated method stub
 		System.out.println("-------- WELCOME TO OUR SMART-ORCHARD --------\n");
