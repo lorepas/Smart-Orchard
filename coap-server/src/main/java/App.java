@@ -18,7 +18,8 @@ public class App {
 	public static String orchard_type = new String();
 	public static int res_number = 0;
 	public static boolean obs = false;
-	//PROBLEMA RISORSE OSSERVABILI E GESTIRE LA REGISTRAZIONE SE CI METTE TROPPO TEMPO (PERCHÈ PIÙ RISORSE)
+	public static ArrayList<String> orchards = new ArrayList<String>();
+		
 	public static void main(String[] args) throws NumberFormatException, IOException, InterruptedException {
 		// TODO Auto-generated method stub
 		System.out.println("-------- WELCOME TO OUR SMART-ORCHARD --------\n");
@@ -29,12 +30,28 @@ public class App {
 			if(res_number<=0)
 				System.out.println("Please, try with a number greater than 0: ");
 		}
+		for(int i=0; i<res_number;i++) {
+			BufferedReader orc = new BufferedReader(new InputStreamReader(System.in));
+			System.out.println("Which type of orchard do you want to manage?");
+			System.out.print(">>>");
+			orchards.add(orc.readLine());
+		}
 		System.out.println("\n-------- WAITING RESOURCE REGISTRATION --------\n");
 		startServer();
 		BufferedReader command = new BufferedReader(new InputStreamReader(System.in));
+		Date init_date = new Date();
+		long init_time = init_date.getTime();
 		while(true) {
 			while(waitReg){
 				TimeUnit.SECONDS.sleep(30);
+				Date act_date = new Date();
+				long diff_ms = act_date.getTime() - init_time;
+				long diff_sec = diff_ms / 1000;
+				if(diff_sec > 89) {
+					System.out.println("\n-------- REGISTRATION FAILS! --------\n");
+					System.exit(0);
+					return;
+				}
 			}
 			commandLine();
 			String str_cmd = "";
@@ -250,9 +267,15 @@ public class App {
 			int thr_hum = -1;
 			while(thr_hum<0||thr_hum>100) {
 				BufferedReader res_thr = new BufferedReader(new InputStreamReader(System.in));
-				thr_hum = Integer.parseInt(res_thr.readLine());
-				if(res_number<0||thr_hum>100)
-					System.out.println("Please, try with another number >>>> ");
+				String s_res_thr = res_thr.readLine();
+				if(s_res_thr.equals("q")) {
+					return;
+				}
+				thr_hum = Integer.parseInt(s_res_thr);
+				if(thr_hum<0||thr_hum>100) {
+					System.out.print("\n");
+					System.out.print("Please, try with another number >>>> ");
+				}
 			}
 			CoapClient client = new CoapClient(hum_sensor.get(keys[id]).getResURI());
 			CoapResponse response = client.post("thr_hum="+thr_hum, MediaTypeRegistry.TEXT_PLAIN);
@@ -274,9 +297,15 @@ public class App {
 			int thr_tmp = -1;
 			while(thr_tmp<0||thr_tmp>32) {
 				BufferedReader res_thr = new BufferedReader(new InputStreamReader(System.in));
-				thr_tmp = Integer.parseInt(res_thr.readLine());
-				if(res_number<0||thr_tmp>32)
-					System.out.println("Please, try with another number >>>> ");
+				String s_res_thr = res_thr.readLine();
+				if(s_res_thr.equals("q")) {
+					return;
+				}
+				thr_tmp = Integer.parseInt(s_res_thr);
+				if(thr_tmp<0||thr_tmp>32) {
+					System.out.print("\n");
+					System.out.print("Please, try with another number >>>> ");
+				}
 			}
 			CoapClient client = new CoapClient(temp_sensor.get(keys[id]).getResURI());
 			CoapResponse response = client.post("thr_tmp="+thr_tmp, MediaTypeRegistry.TEXT_PLAIN);

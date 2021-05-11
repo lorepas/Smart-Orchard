@@ -29,7 +29,7 @@ public class ObserveCoapClient extends CoapClient {
 		this.tem_sen = ts;
 	}
 	
-	public void startCoapObserve() {
+	public void startCoapObserve(final int c) {
 		cor = this.observe(new CoapHandler() {
 			public void onLoad(CoapResponse response) {
 				try {
@@ -37,18 +37,20 @@ public class ObserveCoapClient extends CoapClient {
 					if(jsonOb.containsKey("hum_value")) {
 						int hum_value = Integer.parseInt(jsonOb.get("hum_value").toString());
 						int hum_thr = Integer.parseInt(jsonOb.get("thr_hum").toString());
-						for(String s: App.hum_sensor.keySet()) {
-							if(hum_sen.equals(App.hum_sensor.get(s)))
-								key_hum = s;
+						for(String s1: App.hum_sensor.keySet()) {
+							if(hum_sen.equals(App.hum_sensor.get(s1))) {
+								key_hum = s1;
+							}
 						}
 						App.hum_sensor.get(key_hum).setHumidity_threshold(hum_thr);
 						App.hum_sensor.get(key_hum).setValue(hum_value);
 					}else if(jsonOb.containsKey("temp_value")) {
 						int temp_value = Integer.parseInt(jsonOb.get("temp_value").toString());
 						int temp_thr = Integer.parseInt(jsonOb.get("thr_tmp").toString());
-						for(String s: App.temp_sensor.keySet()) {
-							if(tem_sen.equals(App.temp_sensor.get(s)))
-								key_tem = s;
+						for(String s2: App.temp_sensor.keySet()) {
+							if(tem_sen.equals(App.temp_sensor.get(s2))){
+								key_tem = s2;
+							}
 						}
 						App.temp_sensor.get(key_tem).setTemperature_threshold(temp_thr);
 						App.temp_sensor.get(key_tem).setValue(temp_value);
@@ -56,8 +58,9 @@ public class ObserveCoapClient extends CoapClient {
 						String sprinkling = jsonOb.get("sprinkling").toString();
 						String active = jsonOb.get("active").toString();
 						for(String s: App.sprinkler.keySet()) {
-							if(sprinkler.equals(App.sprinkler.get(s)))
+							if(sprinkler.equals(App.sprinkler.get(s))) {
 								key_spr = s;
+							}
 						}
 						if(active.contains("ON"))
 							App.sprinkler.get(key_spr).setActive(true);
@@ -71,17 +74,20 @@ public class ObserveCoapClient extends CoapClient {
 						
 					}
 					
-					if(App.obs==true) {
+					if(App.obs==true && c==3) {
 						Date date = new Date();
 						long time = date.getTime();
 						Timestamp t = new Timestamp(time);
 						System.out.println("---------------------");
 						System.out.println("--------- TIMESTAMP || "+t);
 						System.out.println("---------------------");
-						printAll();
-						//System.out.println("SPRINKLER "+sprinkler+ " -> "+App.sprinkler.get(key_spr).toString());
-						//System.out.println("HUMIDITY SENSOR "+key_hum+ " -> "+App.hum_sensor.get(key_hum).toString());
-						//System.out.println("TEMPERATURE SENSOR "+key_tem+ " -> "+App.temp_sensor.get(key_tem).toString());
+						if(key_spr!=null) {
+							key_hum = "hum_"+key_spr.split("_")[1];
+							key_tem = "temp_"+key_spr.split("_")[1];
+						}
+						System.out.println("SPRINKLER "+key_spr+ " -> "+App.sprinkler.get(key_spr).toString());
+						System.out.println("HUMIDITY SENSOR "+key_hum+ " -> "+App.hum_sensor.get(key_hum).toString());
+						System.out.println("TEMPERATURE SENSOR "+key_tem+ " -> "+App.temp_sensor.get(key_tem).toString());
 					}
 				}catch(Exception e){
 					e.printStackTrace();
@@ -92,20 +98,5 @@ public class ObserveCoapClient extends CoapClient {
 				System.out.println("-------- REQ TIMEOUT OR REJECT OBSERVING --------\n");
 			}
 		});
-	}
-	
-	public void printAll() {
-		String[] spri_keys = App.sprinkler.keySet().toArray(new String[0]);
-		String[] hum_keys = App.hum_sensor.keySet().toArray(new String[0]);
-		String[] temp_keys = App.temp_sensor.keySet().toArray(new String[0]);
-		
-		for(int i=0;i<spri_keys.length;i++)
-			System.out.println("SPRINKLER "+spri_keys[i]+ " -> "+App.sprinkler.get(spri_keys[i]).toString());
-		
-		for(int i=0;i<hum_keys.length;i++)
-			System.out.println("HUMIDITY SENSOR "+hum_keys[i]+ " -> "+App.hum_sensor.get(hum_keys[i]).toString());
-		
-		for(int i=0;i<temp_keys.length;i++) 
-			System.out.println("TEMPERATURE SENSOR "+temp_keys[i]+ " -> "+App.temp_sensor.get(temp_keys[i]).toString());
 	}
 }

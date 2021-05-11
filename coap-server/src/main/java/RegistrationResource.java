@@ -15,6 +15,7 @@ import org.eclipse.californium.core.server.resources.CoapExchange;
 public class RegistrationResource extends CoapResource {
 	
 	private int counter=0;
+	public int count_res=0;
 
 	public RegistrationResource(String name) {
 		super(name);
@@ -27,7 +28,7 @@ public class RegistrationResource extends CoapResource {
 	}
 	
 	public void handleGET(CoapExchange exchange) {
-		counter++;
+		count_res=0;
 		exchange.accept();
 		InetAddress addr = exchange.getSourceAddress();
 		CoapClient client = new CoapClient("coap://["+addr.getHostAddress()+"]:5683/.well-known/core");
@@ -41,16 +42,7 @@ public class RegistrationResource extends CoapResource {
 		
 		String responseText = response.getResponseText();
 		String[] res = responseText.split(",");
-		System.out.println("Which type of orchard do you want to manage?");
-		System.out.print(">>>");
-		BufferedReader orc = new BufferedReader(new InputStreamReader(System.in));
-		String orchard_type="";
-		try {
-			orchard_type = orc.readLine();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} 
+		String orchard_type= App.orchards.get(counter++);
 		for(int i=1; i< res.length; i++) {
 			try {
 				String[] parameters = res[i].split(";");
@@ -60,17 +52,17 @@ public class RegistrationResource extends CoapResource {
 					HumiditySensor newHum = new HumiditySensor(path,addr.getHostAddress(),orchard_type);
 					App.hum_sensor.put(name+"_"+addr.getHostAddress(),newHum);
 					App.obsClient.put(name+"_"+addr.getHostAddress(), new ObserveCoapClient(newHum));
-					App.obsClient.get(name+"_"+addr.getHostAddress()).startCoapObserve();
+					App.obsClient.get(name+"_"+addr.getHostAddress()).startCoapObserve(++count_res);
 				}else if(name.compareTo("temp")==0) {
 					TemperatureSensor newTem = new TemperatureSensor(path,addr.getHostAddress(),orchard_type);
 					App.temp_sensor.put(name+"_"+addr.getHostAddress(), newTem);
 					App.obsClient.put(name+"_"+addr.getHostAddress(), new ObserveCoapClient(newTem));
-					App.obsClient.get(name+"_"+addr.getHostAddress()).startCoapObserve();
+					App.obsClient.get(name+"_"+addr.getHostAddress()).startCoapObserve(++count_res);
 				}else if(name.compareTo("sprinkler")==0) {
 					Sprinkler newSprin = new Sprinkler(path, addr.getHostAddress(),orchard_type);
 					App.sprinkler.put(name+"_"+addr.getHostAddress(),newSprin);
 					App.obsClient.put(name+"_"+addr.getHostAddress(), new ObserveCoapClient(newSprin));
-					App.obsClient.get(name+"_"+addr.getHostAddress()).startCoapObserve();
+					App.obsClient.get(name+"_"+addr.getHostAddress()).startCoapObserve(++count_res);
 				}	
 			}catch(Exception e){
 				e.printStackTrace();
