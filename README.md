@@ -27,6 +27,26 @@ java -jar target/coap-server-0.0.1-SNAPSHOT.jar
 
 ## 1. Deployment
 
-![deployment] (images/img1.png "Deployment")
+![deployment](images/img1.png "Deployment")
 
-## 2. 
+## 2. Number of resources selection
+
+![num_res](images/img2.png "Number of resources")
+
+## 3. Type of cultivation choice
+
+![cultivations](images/img3.png "Cultivations")
+
+## 4. Main menu and nodes starting
+
+![main_menu](images/img4.png "Main menu")
+
+## 5. Show all registerd resources
+
+![resources](images/img5.png "Resources")
+
+## 6. Change sprinkler status
+
+![change_status](images/img6.png "Change sprinkler status")
+
+## 7. Show resources status
