@@ -10,7 +10,7 @@ With this application the farmer can adjust the irrigation of the crop in a smar
 - Each node works either as sensor and as actuator.
 - Each node can be customized by the farmer, in particular he can fix the temperature and humidity threshold from which turn on or turn off the actuator.
 
-## Deployment and execution
+# Deployment and execution
 
 We work on Ubuntu VM in which is pre-installed Contiki-NG and we only simulate the motes work in Cooja. For this reason we have first to run the container with the `contikier` command and then in the path `tools/cooja` run the app with the `ant run` command. Once in Cooja, we can deploy the nodes in two ways:
 1. Open a preconfigured simulation (file with .csc extension).
@@ -23,3 +23,10 @@ After starting the simulation, we can open our Cloud Computing application. Open
 java -jar target/coap-server-0.0.1-SNAPSHOT.jar
 ```
 
+# Tutorial
+
+## 1. Deployment
+
+![deployment] (images/img1.png "Deployment")
+
+## 2. 
