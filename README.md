@@ -2,14 +2,6 @@
 
 The aim of this project is to develop an IoT application to monitor the orchard in a smart way. In particular, thanks to both sensors and actuator that communicate with a Cloud Computing application, the farmer can monitor his orchards.
 
-## 1. Introduction
-
-With this application the farmer can adjust the irrigation of the crop in a smart way. 
-- If a sensor detects a temperature or humidity higher or lower than a certain threshold, it starts irrigating or stops irrigation automatically. The farmer can also turn off the actuator so she/he can manually controls the irrigation of the cultivation.
-- The farmer can deploy as many nodes as she/he wants, i.e. in a small farm with only two lines of cultivations the farmer can think to deploy two nodes. 
-- Each node works either as sensor and as actuator.
-- Each node can be customized by the farmer, in particular he can fix the temperature and humidity threshold from which turn on or turn off the actuator.
-
 # Deployment and execution
 
 We work on Ubuntu VM in which is pre-installed Contiki-NG and we only simulate the motes work in Cooja. For this reason we have first to run the container with the `contikier` command and then in the path `tools/cooja` run the app with the `ant run` command. Once in Cooja, we can deploy the nodes in two ways:
@@ -22,31 +14,3 @@ After starting the simulation, we can open our Cloud Computing application. Open
 ```
 java -jar target/coap-server-0.0.1-SNAPSHOT.jar
 ```
-
-# Tutorial
-
-## 1. Deployment
-
-![deployment](images/img1.png "Deployment")
-
-## 2. Number of resources selection
-
-![num_res](images/img2.png "Number of resources")
-
-## 3. Type of cultivation choice
-
-![cultivations](images/img3.png "Cultivations")
-
-## 4. Main menu and nodes starting
-
-![main_menu](images/img4.png "Main menu")
-
-## 5. Show all registerd resources
-
-![resources](images/img5.png "Resources")
-
-## 6. Change sprinkler status
-
-![change_status](images/img6.png "Change sprinkler status")
-
-## 7. Show resources status
