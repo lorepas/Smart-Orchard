@@ -14,3 +14,7 @@ After starting the simulation, we can open our Cloud Computing application. Open
 ```
 java -jar target/coap-server-0.0.1-SNAPSHOT.jar
 ```
+
+# Documentation
+
+You can find the documentation in the [wiki](https://github.com/lorepas/Smart-Orchard.wiki.git).
