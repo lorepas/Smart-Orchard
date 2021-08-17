@@ -8,9 +8,12 @@ We work on Ubuntu VM in which is pre-installed Contiki-NG and we only simulate t
 1. Open a preconfigured simulation (file with .csc extension).
 2. Open a new simulation, install first the border-router from the file `border-router.c` and then as many nodes as you wants from the file `coap_server_sprinkler.c`. Then we have to right click on the border-router, set it as SERVER and click on START.
 
-At this point, we have to open a new terminal to start the border router. As we have done before, we have to run the container and then must go into the `border-router's project folder`. At this point we have to run the `make TARGET=cooja connect-border-router` command. Now, the border-router is active and ready to perfrom its actions. At this point we can start the simulation.
-
-After starting the simulation, we can open our Cloud Computing application. Open in terminal the main folder, go into `coap-server folder`  and perform the following command:
+At this point, we have to open a new terminal to start the border router. As we have done before, we have to run the container and then must go into the *border-router's project folder*. At this point we have to run the command
+```
+make TARGET=cooja connect-border-router
+```
+Now, the border-router is active and ready to perfrom its actions. At this point we can start the simulation.
+Then, we can open our Cloud Computing application. Open in terminal the main folder, go into `coap-server folder` and perform the following command:
 ```
 java -jar target/coap-server-0.0.1-SNAPSHOT.jar
 ```
