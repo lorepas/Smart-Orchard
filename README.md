@@ -10,7 +10,7 @@ We work on Ubuntu VM in which is pre-installed Contiki-NG and we only simulate t
 
 At this point, we have to open a new terminal to start the border router. As we have done before, we have to run the container and then must go into the *border-router's project folder*. At this point we have to run the command:
 ```
-make TARGET=cooja connect-border-router
+make TARGET=cooja connect-router-cooja
 ```
 Now, the border-router is active and ready to perfrom its actions. At this point we can start the simulation and after that we can open our Cloud Computing application. Open in terminal the main folder, go into `coap-server folder` and perform the following command:
 ```
