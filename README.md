@@ -14,12 +14,12 @@ make TARGET=cooja connect-router-cooja
 ```
 Now, the border-router is active and ready to perfrom its actions. At this point we can start the simulation and after that we can open our Cloud Computing application. Open in terminal the main folder, go into `coap-server folder` and perform the following command:
 ```
-java -jar target/coap-server-0.0.1-SNAPSHOT.jar
+mvn package
 ```
 
-If the `.jar file` was not found, it means that it must be created and for this reason, first, you have to perform the following command into the same folder:
+At this point, the application is compiled and the file is ready to run. With the following command, the IoT application starts:
 ```
-mvn package
+java -jar target/coap-server-0.0.1-SNAPSHOT.jar
 ```
 
 # Documentation
