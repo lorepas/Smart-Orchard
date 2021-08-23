@@ -164,19 +164,19 @@ public class App {
 			String[] spri_keys = sprinkler.keySet().toArray(new String[0]);
 			for(int i=0;i<spri_keys.length;i++) {
 				//sprinkler.get(spri_keys[i]).getAllValuesCOAP();
-				System.out.println("SPRINKLER "+spri_keys[i]+ " -> "+sprinkler.get(spri_keys[i]).toString());
+				System.out.println("SPRINKLER <"+sprinkler.get(spri_keys[i]).getOrchard().toUpperCase()+ "> -> "+sprinkler.get(spri_keys[i]).toString());
 			}
 		}else if(resType==1) {
 			String[] hum_keys = hum_sensor.keySet().toArray(new String[0]);
 			for(int i=0;i<hum_keys.length;i++) {
 				//hum_sensor.get(hum_keys[i]).getAllValuesCOAP();
-				System.out.println("HUMIDITY SENSOR "+hum_keys[i]+ " -> "+hum_sensor.get(hum_keys[i]).toString());
+				System.out.println("HUMIDITY SENSOR <"+hum_sensor.get(hum_keys[i]).getOrchard().toUpperCase()+ "> -> "+hum_sensor.get(hum_keys[i]).toString());
 			}
 		}else if(resType==2) {
 			String[] temp_keys = temp_sensor.keySet().toArray(new String[0]);
 			for(int i=0;i<temp_keys.length;i++) {
 				//temp_sensor.get(temp_keys[i]).getAllValuesCOAP();
-				System.out.println("TEMPERATURE SENSOR "+temp_keys[i]+ " -> "+temp_sensor.get(temp_keys[i]).toString());
+				System.out.println("TEMPERATURE SENSOR <"+temp_sensor.get(temp_keys[i]).getOrchard().toUpperCase()+ "> -> "+temp_sensor.get(temp_keys[i]).toString());
 			}
 		}
 	}
@@ -185,7 +185,7 @@ public class App {
 		int id=0;
 		for(Map.Entry<String, Sprinkler> entry: sprinkler.entrySet() ) {
 			//entry.getValue().getAllValuesCOAP();
-			System.out.println(id+") "+entry.getKey()+"->"+entry.getValue().toString()+" ("+entry.getValue().getOrchard()+")");
+			System.out.println(id+") "+entry.getKey()+"->"+entry.getValue().toString()+" <"+entry.getValue().getOrchard().toUpperCase()+">");
 			id++;
 		}
 	}
@@ -194,7 +194,7 @@ public class App {
 		int id=0;
 		for(Map.Entry<String, HumiditySensor> entry: hum_sensor.entrySet() ) {
 			//entry.getValue().getAllValuesCOAP();
-			System.out.println(id+") "+entry.getKey()+"->"+entry.getValue().toString()+" ("+entry.getValue().getOrchard()+")");
+			System.out.println(id+") "+entry.getKey()+"->"+entry.getValue().toString()+" <"+entry.getValue().getOrchard().toUpperCase()+">");
 			id++;
 		}
 	}
@@ -204,7 +204,7 @@ public class App {
 		int id=0;
 		for(Map.Entry<String, TemperatureSensor> entry: temp_sensor.entrySet() ) {
 			//entry.getValue().getAllValuesCOAP();
-			System.out.println(id+") "+entry.getKey()+"->"+entry.getValue().toString()+" ("+entry.getValue().getOrchard()+")");
+			System.out.println(id+") "+entry.getKey()+"->"+entry.getValue().toString()+" <"+entry.getValue().getOrchard().toUpperCase()+">");
 			id++;
 		}
 	}

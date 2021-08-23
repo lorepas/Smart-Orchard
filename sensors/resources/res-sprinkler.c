@@ -20,14 +20,14 @@ static void res_post_put_handler(coap_message_t *request, coap_message_t *respon
 static void res_event_handler(void);
 
 EVENT_RESOURCE(res_spri, "title=\"Sprinkler Actuator: ?POST/PUT active=ON||OFF&sprinkling=YES||NO\";rt=\"sprinkler actuator\";obs",
-	       	   res_get_handler,
+	       res_get_handler,
                res_post_put_handler,
                res_post_put_handler,
                NULL,
                res_event_handler);
 
 static void res_event_handler(void) {
-	LOG_DBG("sending notification");
+	LOG_DBG("Sending notification observing sprinkler");
   	coap_notify_observers(&res_spri);
 }
 

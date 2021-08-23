@@ -474,62 +474,62 @@ LOAD /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crtn.o
  *(.dynsym)
  .dynsym        0x00000000000015e8     0x2b20 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
 
-.dynstr         0x0000000000004108     0x3068
+.dynstr         0x0000000000004108     0x306d
  *(.dynstr)
- .dynstr        0x0000000000004108     0x3068 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
+ .dynstr        0x0000000000004108     0x306d /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
 
-.gnu.version    0x0000000000007170      0x564
+.gnu.version    0x0000000000007176      0x564
  *(.gnu.version)
- .gnu.version   0x0000000000007170      0x564 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
+ .gnu.version   0x0000000000007176      0x564 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
 
-.gnu.version_d  0x00000000000076d4        0x0
+.gnu.version_d  0x00000000000076dc        0x0
  *(.gnu.version_d)
  .gnu.version_d
-                0x00000000000076d4        0x0 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
+                0x00000000000076dc        0x0 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
 
-.gnu.version_r  0x00000000000076d4       0x40
+.gnu.version_r  0x00000000000076dc       0x40
  *(.gnu.version_r)
  .gnu.version_r
-                0x00000000000076d4       0x40 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
+                0x00000000000076dc       0x40 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
 
-.rel.dyn        0x0000000000007714     0x9b40
+.rel.dyn        0x000000000000771c     0x9b40
  *(.rel.init)
- .rel.init      0x0000000000007714        0x0 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
+ .rel.init      0x000000000000771c        0x0 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
  *(.rel.text .rel.text.* .rel.gnu.linkonce.t.*)
- .rel.text      0x0000000000007714     0x9330 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
+ .rel.text      0x000000000000771c     0x9330 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
  *(.rel.fini)
- .rel.fini      0x0000000000010a44        0x0 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
+ .rel.fini      0x0000000000010a4c        0x0 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
  *(.rel.rodata .rel.rodata.* .rel.gnu.linkonce.r.*)
- .rel.rodata    0x0000000000010a44      0x428 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
+ .rel.rodata    0x0000000000010a4c      0x428 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
  *(.rel.data.rel.ro .rel.data.rel.ro.* .rel.gnu.linkonce.d.rel.ro.*)
  *(.rel.data .rel.data.* .rel.gnu.linkonce.d.*)
  .rel.data.rel.local
-                0x0000000000010e6c        0x8 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
- .rel.data      0x0000000000010e74      0x3a8 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
+                0x0000000000010e74        0x8 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
+ .rel.data      0x0000000000010e7c      0x3a8 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
  *(.rel.tdata .rel.tdata.* .rel.gnu.linkonce.td.*)
  *(.rel.tbss .rel.tbss.* .rel.gnu.linkonce.tb.*)
  *(.rel.ctors)
  *(.rel.dtors)
  *(.rel.got)
- .rel.got       0x000000000001121c       0x28 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
+ .rel.got       0x0000000000011224       0x28 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
  *(.rel.bss .rel.bss.* .rel.gnu.linkonce.b.*)
  *(.rel.ifunc)
- .rel.ifunc     0x0000000000011244        0x0 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
+ .rel.ifunc     0x000000000001124c        0x0 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
  .rel.fini_array
-                0x0000000000011244        0x8 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
- .rel.init_array
                 0x000000000001124c        0x8 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
+ .rel.init_array
+                0x0000000000011254        0x8 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
 
-.rel.plt        0x0000000000011254        0x0
+.rel.plt        0x000000000001125c        0x0
  *(.rel.plt)
- .rel.plt       0x0000000000011254        0x0 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
+ .rel.plt       0x000000000001125c        0x0 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
  *(.rel.iplt)
 
-.init           0x0000000000011254       0x23
+.init           0x000000000001125c       0x23
  *(SORT(.init))
- .init          0x0000000000011254       0x1e /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
-                0x0000000000011254                _init
- .init          0x0000000000011272        0x5 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crtn.o
+ .init          0x000000000001125c       0x1e /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crti.o
+                0x000000000001125c                _init
+ .init          0x000000000001127a        0x5 /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crtn.o
 
 .plt            0x0000000000011280       0x10
  *(.plt)
@@ -563,11 +563,11 @@ LOAD /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crtn.o
                 0x00000000000114e1                platform_init_stage_two
                 0x00000000000114f4                platform_init_stage_three
                 0x0000000000011507                platform_main_loop
-                0x000000000001157a                Java_org_contikios_cooja_corecomm_Lib3_init
-                0x00000000000115b1                Java_org_contikios_cooja_corecomm_Lib3_getMemory
-                0x00000000000115e4                Java_org_contikios_cooja_corecomm_Lib3_setMemory
-                0x0000000000011644                Java_org_contikios_cooja_corecomm_Lib3_tick
-                0x00000000000116ac                Java_org_contikios_cooja_corecomm_Lib3_setReferenceAddress
+                0x000000000001157a                Java_org_contikios_cooja_corecomm_Lib32_init
+                0x00000000000115b1                Java_org_contikios_cooja_corecomm_Lib32_getMemory
+                0x00000000000115e4                Java_org_contikios_cooja_corecomm_Lib32_setMemory
+                0x0000000000011644                Java_org_contikios_cooja_corecomm_Lib32_tick
+                0x00000000000116ac                Java_org_contikios_cooja_corecomm_Lib32_setReferenceAddress
  .text          0x00000000000116bf       0x65 build/cooja/mtype457.a(simEnvChange.o)
                 0x00000000000116bf                doActionsBeforeTick
                 0x00000000000116f1                doActionsAfterTick
@@ -2474,175 +2474,175 @@ LOAD /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crtn.o
 .debug_frame
  *(.debug_frame)
 
-.debug_str      0x0000000000000000     0x8b90
+.debug_str      0x0000000000000000     0x8b95
  *(.debug_str)
  .debug_str     0x0000000000000000      0x165 border-router.o
                                         0x1f8 (size before relaxing)
- .debug_str     0x0000000000000165     0x17a4 build/cooja/mtype457.o
-                                       0x1965 (size before relaxing)
- .debug_str     0x0000000000001909       0x3b build/cooja/mtype457.a(simEnvChange.o)
+ .debug_str     0x0000000000000165     0x17a9 build/cooja/mtype457.o
+                                       0x196a (size before relaxing)
+ .debug_str     0x000000000000190e       0x3b build/cooja/mtype457.a(simEnvChange.o)
                                         0x202 (size before relaxing)
- .debug_str     0x0000000000001944       0x63 build/cooja/mtype457.a(cooja_mt.o)
+ .debug_str     0x0000000000001949       0x63 build/cooja/mtype457.a(cooja_mt.o)
                                         0x203 (size before relaxing)
- .debug_str     0x00000000000019a7       0xa2 build/cooja/mtype457.a(cooja_mtarch.o)
+ .debug_str     0x00000000000019ac       0xa2 build/cooja/mtype457.a(cooja_mtarch.o)
                                         0x208 (size before relaxing)
- .debug_str     0x0000000000001a49      0x123 build/cooja/mtype457.a(rtimer-arch.o)
+ .debug_str     0x0000000000001a4e      0x123 build/cooja/mtype457.a(rtimer-arch.o)
                                         0x255 (size before relaxing)
- .debug_str     0x0000000000001b6c       0xd1 build/cooja/mtype457.a(beep.o)
+ .debug_str     0x0000000000001b71       0xd1 build/cooja/mtype457.a(beep.o)
                                         0x24c (size before relaxing)
- .debug_str     0x0000000000001c3d       0xa9 build/cooja/mtype457.a(leds-arch.o)
+ .debug_str     0x0000000000001c42       0xa9 build/cooja/mtype457.a(leds-arch.o)
                                         0x259 (size before relaxing)
- .debug_str     0x0000000000001ce6       0x54 build/cooja/mtype457.a(moteid.o)
+ .debug_str     0x0000000000001ceb       0x54 build/cooja/mtype457.a(moteid.o)
                                         0x202 (size before relaxing)
- .debug_str     0x0000000000001d3a       0x62 build/cooja/mtype457.a(pir-sensor.o)
+ .debug_str     0x0000000000001d3f       0x62 build/cooja/mtype457.a(pir-sensor.o)
                                         0x239 (size before relaxing)
- .debug_str     0x0000000000001d9c       0xce build/cooja/mtype457.a(rs232.o)
+ .debug_str     0x0000000000001da1       0xce build/cooja/mtype457.a(rs232.o)
                                         0x28d (size before relaxing)
- .debug_str     0x0000000000001e6a       0x62 build/cooja/mtype457.a(vib-sensor.o)
+ .debug_str     0x0000000000001e6f       0x62 build/cooja/mtype457.a(vib-sensor.o)
                                         0x239 (size before relaxing)
- .debug_str     0x0000000000001ecc       0x7e build/cooja/mtype457.a(clock.o)
+ .debug_str     0x0000000000001ed1       0x7e build/cooja/mtype457.a(clock.o)
                                         0x22e (size before relaxing)
- .debug_str     0x0000000000001f4a       0xe4 build/cooja/mtype457.a(cooja-log.o)
+ .debug_str     0x0000000000001f4f       0xe4 build/cooja/mtype457.a(cooja-log.o)
                                         0x2b9 (size before relaxing)
- .debug_str     0x000000000000202e      0x112 build/cooja/mtype457.a(cfs-cooja.o)
+ .debug_str     0x0000000000002033      0x112 build/cooja/mtype457.a(cfs-cooja.o)
                                         0x2cf (size before relaxing)
- .debug_str     0x0000000000002140      0x785 build/cooja/mtype457.a(cooja-radio.o)
+ .debug_str     0x0000000000002145      0x785 build/cooja/mtype457.a(cooja-radio.o)
                                         0xa73 (size before relaxing)
- .debug_str     0x00000000000028c5       0xa6 build/cooja/mtype457.a(eeprom.o)
+ .debug_str     0x00000000000028ca       0xa6 build/cooja/mtype457.a(eeprom.o)
                                         0x24f (size before relaxing)
- .debug_str     0x000000000000296b       0x41 build/cooja/mtype457.a(random.o)
+ .debug_str     0x0000000000002970       0x41 build/cooja/mtype457.a(random.o)
                                         0x167 (size before relaxing)
- .debug_str     0x00000000000029ac       0xa7 build/cooja/mtype457.a(sensors.o)
+ .debug_str     0x00000000000029b1       0xa7 build/cooja/mtype457.a(sensors.o)
                                         0x297 (size before relaxing)
- .debug_str     0x0000000000002a53       0x98 build/cooja/mtype457.a(leds.o)
+ .debug_str     0x0000000000002a58       0x98 build/cooja/mtype457.a(leds.o)
                                         0x222 (size before relaxing)
- .debug_str     0x0000000000002aeb      0x2bc build/cooja/mtype457.a(gpio-hal-arch.o)
+ .debug_str     0x0000000000002af0      0x2bc build/cooja/mtype457.a(gpio-hal-arch.o)
                                         0x414 (size before relaxing)
- .debug_str     0x0000000000002da7      0x11a build/cooja/mtype457.a(buttons.o)
+ .debug_str     0x0000000000002dac      0x11a build/cooja/mtype457.a(buttons.o)
                                         0x3d0 (size before relaxing)
- .debug_str     0x0000000000002ec1      0x34b build/cooja/mtype457.a(webserver.o)
+ .debug_str     0x0000000000002ec6      0x34b build/cooja/mtype457.a(webserver.o)
                                         0x684 (size before relaxing)
- .debug_str     0x000000000000320c      0x6a6 build/cooja/mtype457.a(contiki-main.o)
+ .debug_str     0x0000000000003211      0x6a6 build/cooja/mtype457.a(contiki-main.o)
                                         0xd40 (size before relaxing)
- .debug_str     0x00000000000038b2       0x46 build/cooja/mtype457.a(autostart.o)
+ .debug_str     0x00000000000038b7       0x46 build/cooja/mtype457.a(autostart.o)
                                         0x1c3 (size before relaxing)
- .debug_str     0x00000000000038f8       0xed build/cooja/mtype457.a(ctimer.o)
+ .debug_str     0x00000000000038fd       0xed build/cooja/mtype457.a(ctimer.o)
                                         0x2c4 (size before relaxing)
- .debug_str     0x00000000000039e5      0x1d3 build/cooja/mtype457.a(log.o)
+ .debug_str     0x00000000000039ea      0x1d3 build/cooja/mtype457.a(log.o)
                                         0x377 (size before relaxing)
- .debug_str     0x0000000000003bb8       0x5b build/cooja/mtype457.a(energest.o)
+ .debug_str     0x0000000000003bbd       0x5b build/cooja/mtype457.a(energest.o)
                                         0x18a (size before relaxing)
- .debug_str     0x0000000000003c13      0x15e build/cooja/mtype457.a(etimer.o)
+ .debug_str     0x0000000000003c18      0x15e build/cooja/mtype457.a(etimer.o)
                                         0x337 (size before relaxing)
- .debug_str     0x0000000000003d71       0x32 build/cooja/mtype457.a(node-id.o)
+ .debug_str     0x0000000000003d76       0x32 build/cooja/mtype457.a(node-id.o)
                                         0x187 (size before relaxing)
- .debug_str     0x0000000000003da3       0xbe build/cooja/mtype457.a(rtimer.o)
+ .debug_str     0x0000000000003da8       0xbe build/cooja/mtype457.a(rtimer.o)
                                         0x20e (size before relaxing)
- .debug_str     0x0000000000003e61      0x162 build/cooja/mtype457.a(process.o)
+ .debug_str     0x0000000000003e66      0x162 build/cooja/mtype457.a(process.o)
                                         0x2f9 (size before relaxing)
- .debug_str     0x0000000000003fc3       0x23 build/cooja/mtype457.a(timer.o)
+ .debug_str     0x0000000000003fc8       0x23 build/cooja/mtype457.a(timer.o)
                                         0x1b2 (size before relaxing)
- .debug_str     0x0000000000003fe6       0xc2 build/cooja/mtype457.a(list.o)
+ .debug_str     0x0000000000003feb       0xc2 build/cooja/mtype457.a(list.o)
                                         0x209 (size before relaxing)
- .debug_str     0x00000000000040a8      0x1d7 build/cooja/mtype457.a(button-hal.o)
+ .debug_str     0x00000000000040ad      0x1d7 build/cooja/mtype457.a(button-hal.o)
                                         0x4d8 (size before relaxing)
- .debug_str     0x000000000000427f       0xa8 build/cooja/mtype457.a(serial-line.o)
+ .debug_str     0x0000000000004284       0xa8 build/cooja/mtype457.a(serial-line.o)
                                         0x282 (size before relaxing)
- .debug_str     0x0000000000004327      0x111 build/cooja/mtype457.a(gpio-hal.o)
+ .debug_str     0x000000000000432c      0x111 build/cooja/mtype457.a(gpio-hal.o)
                                         0x2d8 (size before relaxing)
- .debug_str     0x0000000000004438      0x1d8 build/cooja/mtype457.a(queuebuf.o)
+ .debug_str     0x000000000000443d      0x1d8 build/cooja/mtype457.a(queuebuf.o)
                                         0x4f8 (size before relaxing)
- .debug_str     0x0000000000004610      0x1bb build/cooja/mtype457.a(packetbuf.o)
+ .debug_str     0x0000000000004615      0x1bb build/cooja/mtype457.a(packetbuf.o)
                                         0x535 (size before relaxing)
- .debug_str     0x00000000000047cb      0x175 build/cooja/mtype457.a(netstack.o)
+ .debug_str     0x00000000000047d0      0x175 build/cooja/mtype457.a(netstack.o)
                                         0x463 (size before relaxing)
- .debug_str     0x0000000000004940       0x5e build/cooja/mtype457.a(linkaddr.o)
+ .debug_str     0x0000000000004945       0x5e build/cooja/mtype457.a(linkaddr.o)
                                         0x1c4 (size before relaxing)
- .debug_str     0x000000000000499e       0x9d build/cooja/mtype457.a(csma.o)
+ .debug_str     0x00000000000049a3       0x9d build/cooja/mtype457.a(csma.o)
                                         0x7bb (size before relaxing)
- .debug_str     0x0000000000004a3b      0x289 build/cooja/mtype457.a(csma-output.o)
+ .debug_str     0x0000000000004a40      0x289 build/cooja/mtype457.a(csma-output.o)
                                         0x85b (size before relaxing)
- .debug_str     0x0000000000004cc4      0x17c build/cooja/mtype457.a(uip-sr.o)
+ .debug_str     0x0000000000004cc9      0x17c build/cooja/mtype457.a(uip-sr.o)
                                         0x71d (size before relaxing)
- .debug_str     0x0000000000004e40      0x40b build/cooja/mtype457.a(uip-ds6.o)
+ .debug_str     0x0000000000004e45      0x40b build/cooja/mtype457.a(uip-ds6.o)
                                         0x6f5 (size before relaxing)
- .debug_str     0x000000000000524b      0x230 build/cooja/mtype457.a(uip-ds6-route.o)
+ .debug_str     0x0000000000005250      0x230 build/cooja/mtype457.a(uip-ds6-route.o)
                                         0x5e8 (size before relaxing)
- .debug_str     0x000000000000547b      0x16d build/cooja/mtype457.a(psock.o)
+ .debug_str     0x0000000000005480      0x16d build/cooja/mtype457.a(psock.o)
                                         0x39f (size before relaxing)
- .debug_str     0x00000000000055e8      0x3c9 build/cooja/mtype457.a(tcpip.o)
+ .debug_str     0x00000000000055ed      0x3c9 build/cooja/mtype457.a(tcpip.o)
                                         0xb18 (size before relaxing)
- .debug_str     0x00000000000059b1      0x334 build/cooja/mtype457.a(uip6.o)
+ .debug_str     0x00000000000059b6      0x334 build/cooja/mtype457.a(uip6.o)
                                         0xbb1 (size before relaxing)
- .debug_str     0x0000000000005ce5      0x20a build/cooja/mtype457.a(uip-ds6-nbr.o)
+ .debug_str     0x0000000000005cea      0x20a build/cooja/mtype457.a(uip-ds6-nbr.o)
                                         0x894 (size before relaxing)
- .debug_str     0x0000000000005eef      0x12b build/cooja/mtype457.a(uip-nd6.o)
+ .debug_str     0x0000000000005ef4      0x12b build/cooja/mtype457.a(uip-nd6.o)
                                         0x601 (size before relaxing)
- .debug_str     0x000000000000601a      0x55d build/cooja/mtype457.a(sicslowpan.o)
+ .debug_str     0x000000000000601f      0x55d build/cooja/mtype457.a(sicslowpan.o)
                                         0xf32 (size before relaxing)
- .debug_str     0x0000000000006577       0x9e build/cooja/mtype457.a(uiplib.o)
+ .debug_str     0x000000000000657c       0x9e build/cooja/mtype457.a(uiplib.o)
                                         0x20e (size before relaxing)
- .debug_str     0x0000000000006615      0x2c0 build/cooja/mtype457.a(rpl.o)
+ .debug_str     0x000000000000661a      0x2c0 build/cooja/mtype457.a(rpl.o)
                                         0xba9 (size before relaxing)
- .debug_str     0x00000000000068d5      0x1dd build/cooja/mtype457.a(rpl-icmp6.o)
+ .debug_str     0x00000000000068da      0x1dd build/cooja/mtype457.a(rpl-icmp6.o)
                                         0xc69 (size before relaxing)
- .debug_str     0x0000000000006ab2       0xaf build/cooja/mtype457.a(rpl-dag-root.o)
+ .debug_str     0x0000000000006ab7       0xaf build/cooja/mtype457.a(rpl-dag-root.o)
                                         0x85a (size before relaxing)
- .debug_str     0x0000000000006b61       0x80 build/cooja/mtype457.a(slip-bridge.o)
+ .debug_str     0x0000000000006b66       0x80 build/cooja/mtype457.a(slip-bridge.o)
                                         0x2fe (size before relaxing)
- .debug_str     0x0000000000006be1      0x10d build/cooja/mtype457.a(slip.o)
+ .debug_str     0x0000000000006be6      0x10d build/cooja/mtype457.a(slip.o)
                                         0x316 (size before relaxing)
- .debug_str     0x0000000000006cee       0x84 build/cooja/mtype457.a(watchdog.o)
+ .debug_str     0x0000000000006cf3       0x84 build/cooja/mtype457.a(watchdog.o)
                                         0x1bd (size before relaxing)
- .debug_str     0x0000000000006d72       0x96 build/cooja/mtype457.a(int-master.o)
+ .debug_str     0x0000000000006d77       0x96 build/cooja/mtype457.a(int-master.o)
                                         0x1e6 (size before relaxing)
- .debug_str     0x0000000000006e08       0x45 build/cooja/mtype457.a(slip-arch.o)
+ .debug_str     0x0000000000006e0d       0x45 build/cooja/mtype457.a(slip-arch.o)
                                         0x16b (size before relaxing)
- .debug_str     0x0000000000006e4d       0xfb build/cooja/mtype457.a(httpd-simple.o)
+ .debug_str     0x0000000000006e52       0xfb build/cooja/mtype457.a(httpd-simple.o)
                                         0x406 (size before relaxing)
- .debug_str     0x0000000000006f48       0x8c build/cooja/mtype457.a(rpl-border-rout)
+ .debug_str     0x0000000000006f4d       0x8c build/cooja/mtype457.a(rpl-border-rout)
                                         0x6d2 (size before relaxing)
- .debug_str     0x0000000000006fd4       0x7a build/cooja/mtype457.a(stimer.o)
+ .debug_str     0x0000000000006fd9       0x7a build/cooja/mtype457.a(stimer.o)
                                         0x1b6 (size before relaxing)
- .debug_str     0x000000000000704e       0x68 build/cooja/mtype457.a(ringbuf.o)
+ .debug_str     0x0000000000007053       0x68 build/cooja/mtype457.a(ringbuf.o)
                                         0x1c5 (size before relaxing)
- .debug_str     0x00000000000070b6       0x68 build/cooja/mtype457.a(memb.o)
+ .debug_str     0x00000000000070bb       0x68 build/cooja/mtype457.a(memb.o)
                                         0x1a3 (size before relaxing)
- .debug_str     0x000000000000711e       0x34 build/cooja/mtype457.a(assert.o)
+ .debug_str     0x0000000000007123       0x34 build/cooja/mtype457.a(assert.o)
                                         0x15f (size before relaxing)
- .debug_str     0x0000000000007152      0x27a build/cooja/mtype457.a(nbr-table.o)
+ .debug_str     0x0000000000007157      0x27a build/cooja/mtype457.a(nbr-table.o)
                                         0x5ab (size before relaxing)
- .debug_str     0x00000000000073cc      0x137 build/cooja/mtype457.a(link-stats.o)
+ .debug_str     0x00000000000073d1      0x137 build/cooja/mtype457.a(link-stats.o)
                                         0x6bf (size before relaxing)
- .debug_str     0x0000000000007503       0x7e build/cooja/mtype457.a(mac-sequence.o)
+ .debug_str     0x0000000000007508       0x7e build/cooja/mtype457.a(mac-sequence.o)
                                         0x385 (size before relaxing)
- .debug_str     0x0000000000007581       0x43 build/cooja/mtype457.a(mac.o)
+ .debug_str     0x0000000000007586       0x43 build/cooja/mtype457.a(mac.o)
                                         0x190 (size before relaxing)
- .debug_str     0x00000000000075c4      0x23b build/cooja/mtype457.a(framer-802154.o)
+ .debug_str     0x00000000000075c9      0x23b build/cooja/mtype457.a(framer-802154.o)
                                         0x5cd (size before relaxing)
- .debug_str     0x00000000000077ff      0x200 build/cooja/mtype457.a(frame802154.o)
+ .debug_str     0x0000000000007804      0x200 build/cooja/mtype457.a(frame802154.o)
                                         0x57c (size before relaxing)
- .debug_str     0x00000000000079ff       0x69 build/cooja/mtype457.a(csma-security.o)
+ .debug_str     0x0000000000007a04       0x69 build/cooja/mtype457.a(csma-security.o)
                                         0x35d (size before relaxing)
- .debug_str     0x0000000000007a68      0x1bd build/cooja/mtype457.a(uipbuf.o)
+ .debug_str     0x0000000000007a6d      0x1bd build/cooja/mtype457.a(uipbuf.o)
                                         0x45b (size before relaxing)
- .debug_str     0x0000000000007c25      0x1fb build/cooja/mtype457.a(uip-icmp6.o)
+ .debug_str     0x0000000000007c2a      0x1fb build/cooja/mtype457.a(uip-icmp6.o)
                                         0x928 (size before relaxing)
- .debug_str     0x0000000000007e20      0x101 build/cooja/mtype457.a(uip-packetqueue)
+ .debug_str     0x0000000000007e25      0x101 build/cooja/mtype457.a(uip-packetqueue)
                                         0x347 (size before relaxing)
- .debug_str     0x0000000000007f21       0xb2 build/cooja/mtype457.a(rpl-nbr-policy.)
+ .debug_str     0x0000000000007f26       0xb2 build/cooja/mtype457.a(rpl-nbr-policy.)
                                         0x9bb (size before relaxing)
- .debug_str     0x0000000000007fd3      0x29c build/cooja/mtype457.a(rpl-neighbor.o)
+ .debug_str     0x0000000000007fd8      0x29c build/cooja/mtype457.a(rpl-neighbor.o)
                                         0xa31 (size before relaxing)
- .debug_str     0x000000000000826f      0x2de build/cooja/mtype457.a(rpl-dag.o)
+ .debug_str     0x0000000000008274      0x2de build/cooja/mtype457.a(rpl-dag.o)
                                         0xb59 (size before relaxing)
- .debug_str     0x000000000000854d      0x32f build/cooja/mtype457.a(rpl-timers.o)
+ .debug_str     0x0000000000008552      0x32f build/cooja/mtype457.a(rpl-timers.o)
                                         0xa25 (size before relaxing)
- .debug_str     0x000000000000887c      0x1c9 build/cooja/mtype457.a(rpl-ext-header.)
+ .debug_str     0x0000000000008881      0x1c9 build/cooja/mtype457.a(rpl-ext-header.)
                                         0xf6a (size before relaxing)
- .debug_str     0x0000000000008a45       0xd2 build/cooja/mtype457.a(rpl-mrhof.o)
+ .debug_str     0x0000000000008a4a       0xd2 build/cooja/mtype457.a(rpl-mrhof.o)
                                         0x722 (size before relaxing)
- .debug_str     0x0000000000008b17       0x79 build/cooja/mtype457.a(border-router-e)
+ .debug_str     0x0000000000008b1c       0x79 build/cooja/mtype457.a(border-router-e)
                                         0x658 (size before relaxing)
 
 .debug_loc

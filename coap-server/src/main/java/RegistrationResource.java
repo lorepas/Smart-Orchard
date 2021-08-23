@@ -15,7 +15,7 @@ import org.eclipse.californium.core.server.resources.CoapExchange;
 public class RegistrationResource extends CoapResource {
 	
 	private int counter=0;
-	public int count_res=0;
+	public static ArrayList<Resource> resources = new ArrayList<Resource>(3);
 
 	public RegistrationResource(String name) {
 		super(name);
@@ -28,7 +28,6 @@ public class RegistrationResource extends CoapResource {
 	}
 	
 	public void handleGET(CoapExchange exchange) {
-		count_res=0;
 		exchange.accept();
 		InetAddress addr = exchange.getSourceAddress();
 		CoapClient client = new CoapClient("coap://["+addr.getHostAddress()+"]:5683/.well-known/core");
@@ -52,18 +51,19 @@ public class RegistrationResource extends CoapResource {
 					HumiditySensor newHum = new HumiditySensor(path,addr.getHostAddress(),orchard_type);
 					App.hum_sensor.put(name+"_"+addr.getHostAddress(),newHum);
 					App.obsClient.put(name+"_"+addr.getHostAddress(), new ObserveCoapClient(newHum));
-					App.obsClient.get(name+"_"+addr.getHostAddress()).startCoapObserve(++count_res);
+					App.obsClient.get(name+"_"+addr.getHostAddress()).startCoapObserve();
 				}else if(name.compareTo("temp")==0) {
 					TemperatureSensor newTem = new TemperatureSensor(path,addr.getHostAddress(),orchard_type);
 					App.temp_sensor.put(name+"_"+addr.getHostAddress(), newTem);
 					App.obsClient.put(name+"_"+addr.getHostAddress(), new ObserveCoapClient(newTem));
-					App.obsClient.get(name+"_"+addr.getHostAddress()).startCoapObserve(++count_res);
+					App.obsClient.get(name+"_"+addr.getHostAddress()).startCoapObserve();
 				}else if(name.compareTo("sprinkler")==0) {
 					Sprinkler newSprin = new Sprinkler(path, addr.getHostAddress(),orchard_type);
 					App.sprinkler.put(name+"_"+addr.getHostAddress(),newSprin);
 					App.obsClient.put(name+"_"+addr.getHostAddress(), new ObserveCoapClient(newSprin));
-					App.obsClient.get(name+"_"+addr.getHostAddress()).startCoapObserve(++count_res);
-				}	
+					App.obsClient.get(name+"_"+addr.getHostAddress()).startCoapObserve();
+				}
+
 			}catch(Exception e){
 				e.printStackTrace();
 			}
@@ -72,5 +72,6 @@ public class RegistrationResource extends CoapResource {
 			App.waitReg = false;
 			
 	}
+
 
 }

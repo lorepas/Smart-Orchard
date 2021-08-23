@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.sql.Timestamp;
@@ -6,30 +7,34 @@ import org.eclipse.californium.core.*;
 import org.json.simple.*;
 
 public class ObserveCoapClient extends CoapClient {
-	private Sprinkler sprinkler;
+	private Sprinkler spr;
 	private HumiditySensor hum_sen;
 	private TemperatureSensor tem_sen;
-	String key_hum;
-	String key_tem;
-	String key_spr;
+	private String key_hum;
+	private String key_tem;
+	private String key_spr;
 	CoapObserveRelation cor;
+	
 
 	public ObserveCoapClient(Sprinkler s) {
 		super(s.getResURI());
-		this.sprinkler = s;
+		this.spr = new Sprinkler(s.getPath(), s.getAdd(), s.getOrchard());
+		this.key_spr = "sprinkler_"+s.getAdd();
 	}
 	
 	public ObserveCoapClient(HumiditySensor hs) {
 		super(hs.getResURI());
-		this.hum_sen = hs;
+		this.hum_sen = new HumiditySensor(hs.getPath(), hs.getAdd(), hs.getOrchard());
+		this.key_hum = "hum_"+hs.getAdd();
 	}
 	
 	public ObserveCoapClient(TemperatureSensor ts) {
 		super(ts.getResURI());
-		this.tem_sen = ts;
+		this.tem_sen = new TemperatureSensor(ts.getPath(), ts.getAdd(), ts.getOrchard());
+		this.key_tem = "temp_"+ts.getAdd();
 	}
-	
-	public void startCoapObserve(final int c) {
+		
+	public void startCoapObserve() {
 		cor = this.observe(new CoapHandler() {
 			public void onLoad(CoapResponse response) {
 				try {
@@ -37,31 +42,22 @@ public class ObserveCoapClient extends CoapClient {
 					if(jsonOb.containsKey("hum_value")) {
 						int hum_value = Integer.parseInt(jsonOb.get("hum_value").toString());
 						int hum_thr = Integer.parseInt(jsonOb.get("thr_hum").toString());
-						for(String s1: App.hum_sensor.keySet()) {
-							if(hum_sen.equals(App.hum_sensor.get(s1))) {
-								key_hum = s1;
-							}
-						}
 						App.hum_sensor.get(key_hum).setHumidity_threshold(hum_thr);
 						App.hum_sensor.get(key_hum).setValue(hum_value);
-					}else if(jsonOb.containsKey("temp_value")) {
+						hum_sen = App.hum_sensor.get(key_hum);
+						RegistrationResource.resources.add(hum_sen);
+					}
+					if(jsonOb.containsKey("temp_value")) {
 						int temp_value = Integer.parseInt(jsonOb.get("temp_value").toString());
 						int temp_thr = Integer.parseInt(jsonOb.get("thr_tmp").toString());
-						for(String s2: App.temp_sensor.keySet()) {
-							if(tem_sen.equals(App.temp_sensor.get(s2))){
-								key_tem = s2;
-							}
-						}
 						App.temp_sensor.get(key_tem).setTemperature_threshold(temp_thr);
 						App.temp_sensor.get(key_tem).setValue(temp_value);
-					}else if(jsonOb.containsKey("active")) {
+						tem_sen = App.temp_sensor.get(key_tem);
+						RegistrationResource.resources.add(tem_sen);
+					}
+					if(jsonOb.containsKey("active")) {
 						String sprinkling = jsonOb.get("sprinkling").toString();
 						String active = jsonOb.get("active").toString();
-						for(String s: App.sprinkler.keySet()) {
-							if(sprinkler.equals(App.sprinkler.get(s))) {
-								key_spr = s;
-							}
-						}
 						if(active.contains("ON"))
 							App.sprinkler.get(key_spr).setActive(true);
 						else
@@ -71,23 +67,26 @@ public class ObserveCoapClient extends CoapClient {
 							App.sprinkler.get(key_spr).setSprinkling(true);
 						else
 							App.sprinkler.get(key_spr).setSprinkling(false);
-						
+						spr = App.sprinkler.get(key_spr);
+						RegistrationResource.resources.add(spr);
 					}
 					
-					if(App.obs==true && c==3) {
-						Date date = new Date();
-						long time = date.getTime();
-						Timestamp t = new Timestamp(time);
-						System.out.println("---------------------");
-						System.out.println("--------- TIMESTAMP || "+t);
-						System.out.println("---------------------");
-						if(key_spr!=null) {
-							key_hum = "hum_"+key_spr.split("_")[1];
-							key_tem = "temp_"+key_spr.split("_")[1];
+					if(App.obs==true && RegistrationResource.resources.size() % 3==0) {
+						if(RegistrationResource.resources.size() > 3) {
+							RegistrationResource.resources.clear();
+						}else {
+							Date date = new Date();
+							long time = date.getTime();
+							Timestamp t = new Timestamp(time);
+							String[] number_node = RegistrationResource.resources.get(0).getAdd().split(":");
+							System.out.println("\n-----------------------------");
+							System.out.println("--------- TIMESTAMP NODE ("+number_node[number_node.length-1]+")|| "+t);
+							System.out.println("-----------------------------\n");
+							System.out.println("The orchard is:\t"+RegistrationResource.resources.get(0).getOrchard().toUpperCase()+"\n");
+							for(Resource r: RegistrationResource.resources)
+								System.out.println(r.toString());
+							RegistrationResource.resources.clear();
 						}
-						System.out.println("SPRINKLER "+key_spr+ " -> "+App.sprinkler.get(key_spr).toString());
-						System.out.println("HUMIDITY SENSOR "+key_hum+ " -> "+App.hum_sensor.get(key_hum).toString());
-						System.out.println("TEMPERATURE SENSOR "+key_tem+ " -> "+App.temp_sensor.get(key_tem).toString());
 					}
 				}catch(Exception e){
 					e.printStackTrace();

@@ -563,11 +563,11 @@ LOAD /usr/lib/gcc/i686-linux-gnu/5/../../../i386-linux-gnu/crtn.o
                 0x00000000000114e1                platform_init_stage_two
                 0x00000000000114f4                platform_init_stage_three
                 0x0000000000011507                platform_main_loop
-                0x000000000001157a                Java_org_contikios_cooja_corecomm_Lib23_init
-                0x00000000000115b1                Java_org_contikios_cooja_corecomm_Lib23_getMemory
-                0x00000000000115e4                Java_org_contikios_cooja_corecomm_Lib23_setMemory
-                0x0000000000011644                Java_org_contikios_cooja_corecomm_Lib23_tick
-                0x00000000000116ac                Java_org_contikios_cooja_corecomm_Lib23_setReferenceAddress
+                0x000000000001157a                Java_org_contikios_cooja_corecomm_Lib17_init
+                0x00000000000115b1                Java_org_contikios_cooja_corecomm_Lib17_getMemory
+                0x00000000000115e4                Java_org_contikios_cooja_corecomm_Lib17_setMemory
+                0x0000000000011644                Java_org_contikios_cooja_corecomm_Lib17_tick
+                0x00000000000116ac                Java_org_contikios_cooja_corecomm_Lib17_setReferenceAddress
  .text          0x00000000000116bf       0x65 build/cooja/mtype922.a(simEnvChange.o)
                 0x00000000000116bf                doActionsBeforeTick
                 0x00000000000116f1                doActionsAfterTick

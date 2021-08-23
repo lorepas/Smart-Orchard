@@ -2,6 +2,8 @@
 #include <string.h>
 #include "coap-engine.h"
 #include "coap.h"
+#include <stdlib.h>
+#include "contiki.h"
 #include "os/dev/leds.h"
 
 #include"time.h"
@@ -12,7 +14,7 @@
 
 int temp_value = 20;
 bool ideal_temp = false;
-int threshold_temp = 15;
+int threshold_temp = 25;
 
 
 static void res_get_handler(coap_message_t *request, coap_message_t *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset);
@@ -27,6 +29,10 @@ EVENT_RESOURCE(res_temp,
                NULL,
                res_event_handler);
 
+static void res_event_handler(void) {
+	LOG_DBG("Sending notification observing temperature sensor");
+  	coap_notify_observers(&res_temp);
+}
 
 static void res_get_handler(coap_message_t *request, coap_message_t *response, uint8_t *buffer, uint16_t preferred_size, int32_t *offset){
 
@@ -87,10 +93,4 @@ static void res_post_put_handler(coap_message_t *request, coap_message_t *respon
 		coap_set_status_code(response, BAD_REQUEST_4_00);
 	}
 	
-}
-
-
-static void res_event_handler(void) {
-	LOG_DBG("Sending notification");
-  	coap_notify_observers(&res_temp);
 }

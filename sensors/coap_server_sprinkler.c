@@ -19,14 +19,17 @@ char *service_registration = "registration";
 
 bool registered = false; 
 static struct etimer timer;
-static int upper = 45;
-static int lower = -10;
 extern int temp_value;
 extern int hum_value;
 extern bool is_on;
 extern int threshold_temp;
 extern int threshold_hum;
 extern bool is_sprinkling;
+static int temp_val_init;
+static int rnd_val_temp;
+static int rnd_val_hum;
+static int handler = -1;
+static int count = 0;
 PROCESS(sprinkler_node, "Sprinkler");
 AUTOSTART_PROCESSES(&sprinkler_node);
 
@@ -46,6 +49,29 @@ void client_chunk_handler(coap_message_t *response){
 	int len = coap_get_payload(response, &chunk);
 	printf("|%.*s", len, (char *)chunk);
 }
+
+int handle_humidity(){
+	int ret;
+	if(handler == -1) //during app warm up	
+		return 50;
+	else if(handler == 0){//higher decrease (from 1 to 8 percentuals points)
+		rnd_val_hum = rand()% 8 + 1;
+		ret = hum_value - rnd_val_hum;
+		if(ret < 0)
+			ret = 0;
+	}else if(handler == 1){//higher increase (from 1 to 8 percentuals points)
+		rnd_val_hum = rand()% 8 + 1;
+		ret = hum_value + rnd_val_hum;
+		if(ret > 100)
+			ret = 100;
+	}else if(handler == 2){//lower increase (from 0 to 3 percentuals points)
+		rnd_val_hum = rand()% 3;
+		ret = hum_value + rnd_val_hum;
+		if(ret > 100)
+			ret = 100;
+	}
+	return ret;
+}	
 
 
 PROCESS_THREAD(sprinkler_node, ev, data){
@@ -79,30 +105,60 @@ PROCESS_THREAD(sprinkler_node, ev, data){
 
 	LOG_INFO("registered!\n");
 	etimer_set(&timer, CLOCK_SECOND*10);
-
+	temp_val_init = temp_value;
 	while(true){
 		
 		PROCESS_WAIT_EVENT();
 		if(ev == PROCESS_EVENT_TIMER){  ///  
+			count++;
+			//after 10 iterations there is a change in climate
+			if(count == 10){
+				temp_val_init = (rand() % (38 - 10 + 1)) + 10; //temperature [10°,38°]
+				hum_value = (rand() % (80 - 20 + 1)) + 20; //humidity [20%,80%]
+				count = 0;
+			}
+			//temperature vary from 1 to 3 degree (randomly increase or decrease)
+			rnd_val_temp = rand()% 3 + 1;
+			if((rand()%2+1) % 2 == 0)
+				temp_value = temp_val_init + rnd_val_temp;
+			else
+				temp_value = temp_val_init - rnd_val_temp;
 
-			temp_value = (rand()%(upper - lower + 1)) + lower;
-			hum_value = (rand()%100+1);
+			hum_value = handle_humidity();
 			LOG_DBG("temperature: %d\t threshold set to: %d\n", temp_value,threshold_temp);
 			LOG_DBG("humidity: %d\t threshold set to: %d\n", hum_value,threshold_hum);
+			//if sprinkler is manually off, grass humidity decrease
 			if(!is_on){
-				leds_set(LEDS_NUM_TO_MASK(LEDS_RED));
+				handler = 0;
+				leds_set(LEDS_NUM_TO_MASK(LEDS_RED)); 
 			}else{
-				//if temperature is low or grass humidity is high not give water
-				if(temp_value <= threshold_temp || hum_value >= threshold_hum){
-					leds_set(LEDS_NUM_TO_MASK(LEDS_YELLOW));
-					is_sprinkling=false;
+				//if grass humidity is higher than the threshold
+				if(hum_value >= threshold_hum){
+					//if temperature is higher the threshold sprinkler is on and grass humidity increases gradually
+					if(temp_value >= threshold_temp){
+						handler = 2;
+						leds_set(LEDS_NUM_TO_MASK(LEDS_GREEN));
+						is_sprinkling=true;
+					// if temperature is lower the threshold sprinkler is off and grass humidity decreases
+					} else{
+						handler = 0;
+						leds_set(LEDS_NUM_TO_MASK(LEDS_YELLOW));
+						is_sprinkling=false;
+					}
 				}
-				if(temp_value > threshold_temp || hum_value < threshold_hum){
+				//if grass humidity is lower than the threshold in any case sprinkler is on
+				if(hum_value < threshold_hum){
+					//if temperature is higher than the threshold, grass humidity increases gradually
+					if(temp_value >= threshold_temp){
+						handler = 2;
+					//if temperature is lower than the thresold, grass humidity increases
+					} else{
+						handler = 1;
+					}
 					leds_set(LEDS_NUM_TO_MASK(LEDS_GREEN));
 					is_sprinkling=true;
 				}
 			}
-
 			res_spri.trigger();
 			res_temp.trigger();
 			res_hum.trigger();
