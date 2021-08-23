@@ -17,6 +17,11 @@ Now, the border-router is active and ready to perfrom its actions. At this point
 java -jar target/coap-server-0.0.1-SNAPSHOT.jar
 ```
 
+If the `.jar file` was not found, it means that it must be created and for this reason, first, you have to perform the following command into the same folder:
+```
+mvn package
+```
+
 # Documentation
 
 You can find the documentation in the [wiki](https://github.com/lorepas/Smart-Orchard/wiki).
