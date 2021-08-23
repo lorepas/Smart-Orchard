@@ -73,7 +73,7 @@ public class App {
 					System.out.print(">>>>");
 					BufferedReader command_type = new BufferedReader(new InputStreamReader(System.in));
 					String s = command_type.readLine();
-					if(s.equals("q")) {
+					if(s.equals("q") || s.isEmpty()) {
 						break;
 					}
 					int nodeId = Integer.parseInt(s);
@@ -87,7 +87,7 @@ public class App {
 					System.out.print(">>>>");
 					BufferedReader command_res = new BufferedReader(new InputStreamReader(System.in));
 					String s1 = command_res.readLine();
-					if(s1.equals("q")) {
+					if(s1.equals("q") || s1.isEmpty()) {
 						break;
 					}
 					int res = Integer.parseInt(s1);
@@ -100,7 +100,7 @@ public class App {
 					System.out.print(">>>>");
 					BufferedReader command_sens = new BufferedReader(new InputStreamReader(System.in));
 					String s2 = command_sens.readLine();
-					if(s2.equals("q")) {
+					if(s2.equals("q") || s2.isEmpty()) {
 						break;
 					}
 					int sens = Integer.parseInt(s2);
@@ -152,40 +152,40 @@ public class App {
 	
 	public static void showRegisteredResource() {
 		for(Map.Entry<String, Sprinkler> entry: sprinkler.entrySet())
-			System.out.println(entry.getKey()+"->"+entry.getValue().getOrchard());
+			System.out.println(entry.getKey()+" -> "+entry.getValue().getOrchard().toUpperCase());
 		for(Map.Entry<String, HumiditySensor> entry: hum_sensor.entrySet() )
-			System.out.println(entry.getKey()+"->"+entry.getValue().getOrchard());
+			System.out.println(entry.getKey()+" -> "+entry.getValue().getOrchard().toUpperCase());
 		for(Map.Entry<String, TemperatureSensor> entry: temp_sensor.entrySet() )
-			System.out.println(entry.getKey()+"->"+entry.getValue().getOrchard());
+			System.out.println(entry.getKey()+" -> "+entry.getValue().getOrchard().toUpperCase());
 	}
 		
 	public static void showResourcesState(int resType) {
 		if(resType==0) {
 			String[] spri_keys = sprinkler.keySet().toArray(new String[0]);
 			for(int i=0;i<spri_keys.length;i++) {
-				//sprinkler.get(spri_keys[i]).getAllValuesCOAP();
 				System.out.println("SPRINKLER <"+sprinkler.get(spri_keys[i]).getOrchard().toUpperCase()+ "> -> "+sprinkler.get(spri_keys[i]).toString());
 			}
 		}else if(resType==1) {
 			String[] hum_keys = hum_sensor.keySet().toArray(new String[0]);
 			for(int i=0;i<hum_keys.length;i++) {
-				//hum_sensor.get(hum_keys[i]).getAllValuesCOAP();
 				System.out.println("HUMIDITY SENSOR <"+hum_sensor.get(hum_keys[i]).getOrchard().toUpperCase()+ "> -> "+hum_sensor.get(hum_keys[i]).toString());
 			}
 		}else if(resType==2) {
 			String[] temp_keys = temp_sensor.keySet().toArray(new String[0]);
 			for(int i=0;i<temp_keys.length;i++) {
-				//temp_sensor.get(temp_keys[i]).getAllValuesCOAP();
 				System.out.println("TEMPERATURE SENSOR <"+temp_sensor.get(temp_keys[i]).getOrchard().toUpperCase()+ "> -> "+temp_sensor.get(temp_keys[i]).toString());
 			}
+		}else {
+			System.out.println("-------- WRONG SELECTION! RETRY... --------\n");
+			return;
 		}
 	}
 	
 	public static void showRegisteredSprinkler() {
 		int id=0;
 		for(Map.Entry<String, Sprinkler> entry: sprinkler.entrySet() ) {
-			//entry.getValue().getAllValuesCOAP();
-			System.out.println(id+") "+entry.getKey()+"->"+entry.getValue().toString()+" <"+entry.getValue().getOrchard().toUpperCase()+">");
+			String[] node_number = entry.getKey().split(":");
+			System.out.println(id+") NODE NUMBER "+node_number[node_number.length-1]+" <"+entry.getValue().getOrchard().toUpperCase()+">"+" -> "+entry.getValue().toString());
 			id++;
 		}
 	}
@@ -193,8 +193,8 @@ public class App {
 	public static void showRegisteredHumiditySensor() {
 		int id=0;
 		for(Map.Entry<String, HumiditySensor> entry: hum_sensor.entrySet() ) {
-			//entry.getValue().getAllValuesCOAP();
-			System.out.println(id+") "+entry.getKey()+"->"+entry.getValue().toString()+" <"+entry.getValue().getOrchard().toUpperCase()+">");
+			String[] node_number = entry.getKey().split(":");
+			System.out.println(id+") NODE NUMBER "+node_number[node_number.length-1]+" <"+entry.getValue().getOrchard().toUpperCase()+">"+" -> "+entry.getValue().toString());
 			id++;
 		}
 	}
@@ -203,8 +203,8 @@ public class App {
 	public static void showRegisteredTemperatureSensor() {
 		int id=0;
 		for(Map.Entry<String, TemperatureSensor> entry: temp_sensor.entrySet() ) {
-			//entry.getValue().getAllValuesCOAP();
-			System.out.println(id+") "+entry.getKey()+"->"+entry.getValue().toString()+" <"+entry.getValue().getOrchard().toUpperCase()+">");
+			String[] node_number = entry.getKey().split(":");
+			System.out.println(id+") NODE NUMBER "+node_number[node_number.length-1]+" <"+entry.getValue().getOrchard().toUpperCase()+">"+" -> "+entry.getValue().toString());
 			id++;
 		}
 	}
@@ -252,7 +252,7 @@ public class App {
 		System.out.print(">>>>");
 		BufferedReader res_id = new BufferedReader(new InputStreamReader(System.in));
 		String s_res = res_id.readLine();
-		if(s_res.equals("q")) {
+		if(s_res.equals("q") || s_res.isEmpty()) {
 			return;
 		}
 		int id = Integer.parseInt(s_res);
@@ -268,7 +268,7 @@ public class App {
 			while(thr_hum<0||thr_hum>100) {
 				BufferedReader res_thr = new BufferedReader(new InputStreamReader(System.in));
 				String s_res_thr = res_thr.readLine();
-				if(s_res_thr.equals("q")) {
+				if(s_res_thr.equals("q") || s_res_thr.isEmpty()) {
 					return;
 				}
 				thr_hum = Integer.parseInt(s_res_thr);
@@ -292,17 +292,17 @@ public class App {
 				return;
 			}
 			String[] keys = temp_sensor.keySet().toArray(new String[0]);
-			System.out.println("Please, digit a new temperature threshold (from 0 to 32):");
+			System.out.println("Please, digit a new temperature threshold (from 0 to 40):");
 			System.out.print(">>>>");
 			int thr_tmp = -1;
-			while(thr_tmp<0||thr_tmp>32) {
+			while(thr_tmp<0||thr_tmp>40) {
 				BufferedReader res_thr = new BufferedReader(new InputStreamReader(System.in));
 				String s_res_thr = res_thr.readLine();
-				if(s_res_thr.equals("q")) {
+				if(s_res_thr.equals("q") || s_res_thr.isEmpty()) {
 					return;
 				}
 				thr_tmp = Integer.parseInt(s_res_thr);
-				if(thr_tmp<0||thr_tmp>32) {
+				if(thr_tmp<0||thr_tmp>40) {
 					System.out.print("\n");
 					System.out.print("Please, try with another number >>>> ");
 				}

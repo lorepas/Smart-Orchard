@@ -8,7 +8,6 @@ public class TemperatureSensor extends Resource {
 
 	public TemperatureSensor(String path, String add, String orchard) {
 		super(path, add, orchard);
-		// TODO Auto-generated constructor stub
 	}
 
 	public int getValue() {
@@ -30,27 +29,4 @@ public class TemperatureSensor extends Resource {
 	public void setTemperature_threshold(int temperature_threshold) {
 		this.temperature_threshold = temperature_threshold;
 	}
-	
-	/*public void getAllValuesCOAP() {
-		CoapClient client = new CoapClient(this.getResURI());
-		CoapResponse res = client.get();
-		String code = res.getCode().toString();
-		if(!code.startsWith("2")) {
-			System.err.println("Error with code: "+code);
-			return;
-		}
-		String resText = res.getResponseText();
-		resText = resText.replace("}", "");
-		String[] split1 = resText.split(",");
-		String[] splitRes1 = split1[0].split(":");
-		String[] splitRes2 = split1[1].split(":");
-		String strValue = splitRes1[1];
-		String thrValue = splitRes2[1];
-		strValue = strValue.substring(1,strValue.length()-1); //delete double quotes
-		thrValue = thrValue.substring(1,thrValue.length()-1);
-		int value = Integer.parseInt(strValue);
-		int thrTmp = Integer.parseInt(thrValue);
-		this.setValue(value);
-		this.setTemperature_threshold(thrTmp);
-	}*/
 }

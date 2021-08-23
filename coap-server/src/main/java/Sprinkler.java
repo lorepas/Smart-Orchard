@@ -26,33 +26,6 @@ public class Sprinkler extends Resource {
 	public void setSprinkling(boolean sprinkling) {
 		this.sprinkling = sprinkling;
 	}
-	/*
-	public void getAllValuesCOAP() {
-		CoapClient client = new CoapClient(this.getResURI());
-		CoapResponse res = client.get();
-		String code = res.getCode().toString();
-		if(!code.startsWith("2")) {
-			System.err.println("Error with code: "+code);
-			return;
-		}
-		String resText = res.getResponseText();
-		resText = resText.replace("}", "");
-		String[] split1 = resText.split(",");
-		String[] splitRes1 = split1[0].split(":");
-		String[] splitRes2 = split1[1].split(":");
-		String strValue = splitRes1[1];
-		String sprValue = splitRes2[1];
-		strValue = strValue.substring(1,strValue.length()-1); //delete double quotes
-		sprValue = sprValue.substring(1,sprValue.length()-1);
-		boolean value=false;
-		boolean sprinkling=false;
-		if(strValue.endsWith("N")) //ON
-			value=true;
-		if(sprValue.endsWith("S")) //YES
-			sprinkling=true;
-		this.setActive(value);
-		this.setSprinkling(sprinkling);
-	}*/
 	
 	public String toString() {
 		if(this.active==true) {

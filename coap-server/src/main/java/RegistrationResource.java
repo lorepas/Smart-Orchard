@@ -19,12 +19,10 @@ public class RegistrationResource extends CoapResource {
 
 	public RegistrationResource(String name) {
 		super(name);
-		// TODO Auto-generated constructor stub
 	}
 
 	public RegistrationResource(String name, boolean visible) {
 		super(name, visible);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public void handleGET(CoapExchange exchange) {
