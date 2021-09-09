@@ -15,7 +15,6 @@ import org.eclipse.californium.core.server.resources.CoapExchange;
 public class RegistrationResource extends CoapResource {
 	
 	private int counter=0;
-	//public static ArrayList<Resource> resources = new ArrayList<Resource>(3);
 
 	public RegistrationResource(String name) {
 		super(name);
